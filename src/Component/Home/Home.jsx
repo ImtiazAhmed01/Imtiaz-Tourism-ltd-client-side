@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import MyCarousel from './MyCarousel';
 
 const Home = () => {
+    const [darkMode, setDarkMode] = useState(false);
+    const toggleTheme = () => {
+        setDarkMode(!darkMode);
+    };
     return (
-        <div>
-            <h1 className='text-5xl font-bold'>Welcome to my tourist company</h1>
+        <div className={darkMode ? "bg-black text-white" : "bg-white text-black"}>
+            <div>
+                <button
+                    onClick={toggleTheme}
+                    className={`px-4 py-2 rounded-md ${darkMode ? "bg-gray-200 text-black" : "bg-gray-800 text-white"}`}
+                >
+                    {darkMode ? "Light Mode" : "Dark Mode"}
+                </button>
+            </div>
+
+            <MyCarousel></MyCarousel>
         </div>
     );
 };

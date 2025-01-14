@@ -22,13 +22,43 @@ const Navbar = () => {
     const links = (
         <>
             <li>
-                <NavLink to="" activeclassname="active">
+                <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                        `px-4 py-2 rounded ${isActive ? "bg-blue-500 text-white" : "bg-transparent text-black"}`
+                    }
+                >
                     Home
                 </NavLink>
             </li>
-            <li>
-                <NavLink to="" activeclassname="active">
-                    Rooms
+            <li className="mx-1">
+                <NavLink
+                    to="/community"
+                    className={({ isActive }) =>
+                        `px-4 py-2 rounded ${isActive ? "bg-blue-500 text-white" : "bg-transparent text-black"}`
+                    }
+                >
+                    Community
+                </NavLink>
+            </li>
+            <li className="mx-1">
+                <NavLink
+                    to="/about-us"
+                    className={({ isActive }) =>
+                        `px-4 py-2 rounded ${isActive ? "bg-blue-500 text-white" : "bg-transparent text-black"}`
+                    }
+                >
+                    About Us
+                </NavLink>
+            </li>
+            <li className="mx-1">
+                <NavLink
+                    to="/trips"
+                    className={({ isActive }) =>
+                        `px-4 py-2 rounded ${isActive ? "bg-blue-500 text-white" : "bg-transparent text-black"}`
+                    }
+                >
+                    Trips
                 </NavLink>
             </li>
 
@@ -53,7 +83,7 @@ const Navbar = () => {
                     </span>
                 </div>
             )} */}
-            <div className="navbar" style={{ backgroundColor: "#e5e4e2" }}>
+            <div className="navbar" style={{ backgroundColor: "#008080" }}>
                 <div className="navbar-start">
                     <div className="dropdown">
                         <button tabIndex={0} className="btn btn-ghost lg:hidden text-[#3F0113]">
@@ -83,13 +113,13 @@ const Navbar = () => {
 
                     <NavLink
                         to="/"
-                        className="btn btn-ghost normal-case md:text-xl font-bold text-[#3F0113]"
+                        className="btn btn-ghost normal-case md:text-xl font-bold text-[#FFD700]"
                     >
                         Imtiaz Tourism Ltd
                     </NavLink>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 text-[#3F0113]">{links}</ul>
+                    <ul className="menu menu-horizontal px-1 text-[#FFFFFF]">{links}</ul>
                 </div>
                 <div className="navbar-end gap-4 flex items-center">
                     {/* {user && user.photoURL && (
