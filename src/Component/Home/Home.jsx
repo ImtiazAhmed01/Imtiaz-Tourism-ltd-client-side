@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import MyCarousel from './MyCarousel';
+import OverviewSection from './OverviewSection';
 
 const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -18,6 +19,9 @@ const Home = () => {
             </div>
 
             <MyCarousel></MyCarousel>
+            <div>
+                <OverviewSection></OverviewSection>
+            </div>
         </div>
     );
 };
