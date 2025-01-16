@@ -7,7 +7,7 @@ const slidesData = [
     {
         id: "slide1",
         image: slider1Image,
-        title: "Explore World Like Never Before",
+        title: "Explore Bangladesh Like Never Before",
         description:
             "Discover hidden gems, breathtaking landscapes, and vibrant cultures with our personalized tour guides.",
     },

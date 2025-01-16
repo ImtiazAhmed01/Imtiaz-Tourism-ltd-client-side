@@ -1,23 +1,22 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
-// import { AuthContext } from "../Provider/authProvider";
-// import { NavLink, useNavigate } from "react-router-dom";
+// import { Navigate, NavLink } from "react-router-dom";
 
-
+import { AuthContext } from "../Provider/authProvider";
+import { NavLink, useNavigate } from "react-router-dom";
 const Navbar = () => {
-    // const { user, signOutUser } = useContext(AuthContext);
-    // const navigate = useNavigate();
+    const { user, signOutUser } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    // const handleLogout = async () => {
-    //     try {
-    //         await signOutUser();
-    //         console.log("User logged out successfully");
-    //         navigate("/");  // Redirect to home after logout
-    //     } catch (error) {
-    //         console.error("Logout error:", error.message);
-    //         alert("Failed to log out. Please try again.");
-    //     }
-    // };
+    const handleLogout = async () => {
+        try {
+            await signOutUser();
+            console.log("User logged out successfully");
+            navigate("/");  // Redirect to home after logout
+        } catch (error) {
+            console.error("Logout error:", error.message);
+            alert("Failed to log out. Please try again.");
+        }
+    };
 
     const links = (
         <>
@@ -25,7 +24,7 @@ const Navbar = () => {
                 <NavLink
                     to="/"
                     className={({ isActive }) =>
-                        `px-4 py-2 rounded ${isActive ? "bg-blue-500 text-white" : "bg-transparent text-black"}`
+                        `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
                     }
                 >
                     Home
@@ -35,7 +34,7 @@ const Navbar = () => {
                 <NavLink
                     to="/community"
                     className={({ isActive }) =>
-                        `px-4 py-2 rounded ${isActive ? "bg-blue-500 text-white" : "bg-transparent text-black"}`
+                        `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
                     }
                 >
                     Community
@@ -45,7 +44,7 @@ const Navbar = () => {
                 <NavLink
                     to="/about-us"
                     className={({ isActive }) =>
-                        `px-4 py-2 rounded ${isActive ? "bg-blue-500 text-white" : "bg-transparent text-black"}`
+                        `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
                     }
                 >
                     About Us
@@ -55,14 +54,14 @@ const Navbar = () => {
                 <NavLink
                     to="/trips"
                     className={({ isActive }) =>
-                        `px-4 py-2 rounded ${isActive ? "bg-blue-500 text-white" : "bg-transparent text-black"}`
+                        `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
                     }
                 >
                     Trips
                 </NavLink>
             </li>
 
-            {/* {user && user.displayName && (
+            {user && user.displayName && (
                 <>
                     <li>
                         <NavLink to="" activeclassname="active">
@@ -70,19 +69,19 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                 </>
-            )} */}
+            )}
         </>
     );
 
     return (
         <div>
-            {/* {user && user.displayName && (
+            {user && user.displayName && (
                 <div className="bg-[#FEFAE0] text-center py-2">
                     <span className="text-sm font-medium text-[#333533]">
                         Welcome, {user.displayName}!
                     </span>
                 </div>
-            )} */}
+            )}
             <div className="navbar" style={{ backgroundColor: "#008080" }}>
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -122,7 +121,7 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1 text-[#FFFFFF]">{links}</ul>
                 </div>
                 <div className="navbar-end gap-4 flex items-center">
-                    {/* {user && user.photoURL && (
+                    {user && user.photoURL && (
                         <div className="relative group">
                             <img
                                 src={user.photoURL}
@@ -155,7 +154,7 @@ const Navbar = () => {
                             <NavLink
                                 to="/register"
                                 className={({ isActive }) =>
-                                    `btn ${isActive ? "bg-[#BC6C25] text-[#3F0113]" : "btn-outline border-[#BC6C25] text-[#BC6C25]"}`
+                                    `btn ${isActive ? "bg-[#FFA500] text-[#ffffff]" : "btn-outline border-[#FFA500] text-[#FFA500]"}`
                                 }
                             >
                                 Sign Up
@@ -163,13 +162,13 @@ const Navbar = () => {
                             <NavLink
                                 to="/login"
                                 className={({ isActive }) =>
-                                    `btn ${isActive ? "bg-[#BC6C25] text-[#3F0113]" : "btn-outline border-[#BC6C25] text-[#BC6C25]"}`
+                                    `btn ${isActive ? "bg-[#FFA500] text-[#3F0113]" : "btn-outline border-[#FFA500] text-[#FFA500]"}`
                                 }
                             >
                                 Log In
                             </NavLink>
                         </div>
-                    )} */}
+                    )}
                 </div>
             </div>
         </div>
