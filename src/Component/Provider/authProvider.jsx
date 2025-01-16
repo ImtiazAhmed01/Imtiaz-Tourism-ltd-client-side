@@ -1,7 +1,15 @@
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../../firebase.init";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
-
+import {
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
+    updateProfile,
+    sendPasswordResetEmail,
+} from "firebase/auth";
 
 export const AuthContext = createContext();
 
@@ -10,15 +18,13 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
 
+    // Create new user
     const createUser = async (email, password, userDetails) => {
         try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const newUser = userCredential.user;
 
+            // Update user profile
             await updateProfile(newUser, {
                 displayName: userDetails.displayName,
                 photoURL: userDetails.photoURL,
@@ -39,6 +45,7 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    // Update user profile
     const updateUserProfile = async (updatedUser) => {
         try {
             if (auth.currentUser) {
@@ -62,16 +69,25 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    // Sign out user
     const signOutUser = async () => {
         try {
             await signOut(auth);
             setUser(null);
+            localStorage.removeItem("authToken");
             localStorage.removeItem("userProfile");
         } catch (error) {
             console.error("Sign-out error:", error.message);
         }
     };
 
+    // Check if user is authenticated
+    const isAuthenticated = () => {
+        const token = localStorage.getItem("authToken");
+        return !!token;
+    };
+
+    // Sign in with Google
     const signInWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
@@ -85,10 +101,44 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    // Sign in with email and password
     const signInUser = async (email, password) => {
-        return await signInWithEmailAndPassword(auth, email, password);
+        try {
+            const response = await signInWithEmailAndPassword(auth, email, password);
+            const user = response.user;
+
+            // Assuming the backend sends a token
+            const token = await user.getIdToken(); // Get Firebase auth token
+            const userData = {
+                email: user.email,
+                displayName: user.displayName || "Tourist",
+                photoURL: user.photoURL,
+                role: "tourist", // Default role
+            };
+
+            localStorage.setItem("authToken", token);
+            localStorage.setItem("userProfile", JSON.stringify(userData));
+            setUser(userData);
+
+            return response;
+        } catch (error) {
+            console.error("Error logging in:", error.message);
+            throw error;
+        }
     };
 
+    // Send forgot password email
+    const sendForgotPasswordEmail = async (email) => {
+        try {
+            await sendPasswordResetEmail(auth, email);
+            console.log("Password reset email sent!");
+        } catch (error) {
+            console.error("Error sending password reset email:", error.message);
+            throw error;
+        }
+    };
+
+    // Handle auth state change (user logged in/out)
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
@@ -113,6 +163,8 @@ const AuthProvider = ({ children }) => {
                 signOutUser,
                 signInWithGoogle,
                 updateUserProfile,
+                sendForgotPasswordEmail,
+                isAuthenticated,
             }}
         >
             {!loading && children}

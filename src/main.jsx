@@ -7,6 +7,9 @@ import Root from './Component/Root'
 import AuthProvider from './Component/Provider/authProvider'
 import Register from './Component/Register/Register'
 import ErrorPage from './Component/ErrorPage'
+import Login from './Component/Login/Login'
+import ProtectedRoute from './Component/ProtectedRoute/ProtectedRoute'
+import TouristDashboard from './Component/UserDashboard/TouristDashboard'
 
 const router = createBrowserRouter([
   {
@@ -20,8 +23,16 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register></Register>
+      },
+      {
+        path: 'login',
+        element: <Login></Login>
       }
     ]
+  },
+  {
+    path: "/dashboard/tourist",
+    element: <ProtectedRoute allowedRoles={['tourist']}><TouristDashboard></TouristDashboard></ProtectedRoute>
 
   }
 ])
