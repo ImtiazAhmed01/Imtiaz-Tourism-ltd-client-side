@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MyCarousel from './MyCarousel';
 import OverviewSection from './OverviewSection';
 import TourismAndTravelGuide from './TourismAndTravelGuide';
+import TouristStorySection from './touristStorySection';
 
 const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -25,6 +26,9 @@ const Home = () => {
             </div>
             <div>
                 <TourismAndTravelGuide></TourismAndTravelGuide>
+            </div>
+            <div>
+                <TouristStorySection></TouristStorySection>
             </div>
         </div>
     );
