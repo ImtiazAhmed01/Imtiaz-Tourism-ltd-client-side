@@ -10,6 +10,8 @@ import ErrorPage from './Component/ErrorPage'
 import Login from './Component/Login/Login'
 import ProtectedRoute from './Component/ProtectedRoute/ProtectedRoute'
 import TouristDashboard from './Component/UserDashboard/TouristDashboard'
+import PackageDetails from './Component/PackageDetails/PackageDetails'
+import AllTripsPage from './Component/AllTripsPage/AllTripsPage'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +29,14 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login></Login>
+      },
+      {
+        path: "/packages/:id",
+        element: <PackageDetails></PackageDetails>
+      },
+      {
+        path: '/alltirpspages',
+        element: <AllTripsPage></AllTripsPage>
       }
     ]
   },

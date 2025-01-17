@@ -50,12 +50,12 @@ const Navbar = () => {
             </li>
             <li className="mx-1">
                 <NavLink
-                    to="/trips"
+                    to="/alltirpspages"
                     className={({ isActive }) =>
                         `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
                     }
                 >
-                    Trips
+                    All Trips
                 </NavLink>
             </li>
 
