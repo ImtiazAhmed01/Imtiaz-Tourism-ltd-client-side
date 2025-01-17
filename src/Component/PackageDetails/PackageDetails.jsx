@@ -6,10 +6,12 @@ const PackageDetails = () => {
     const [packageDetails, setPackageDetails] = useState(null);
 
     useEffect(() => {
-        // Fetch package details by ID
         fetch(`http://localhost:5000/ourpackages/${id}`)
             .then((res) => res.json())
-            .then((data) => setPackageDetails(data))
+            .then((data) => {
+                console.log(data); // Verify fetched data
+                setPackageDetails(data);
+            })
             .catch((error) => console.error("Error fetching package details:", error));
     }, [id]);
 

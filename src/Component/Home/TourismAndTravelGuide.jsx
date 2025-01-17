@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+
 
 const TourismAndTravelGuide = () => {
     const [packages, setPackages] = useState([]);
     const [guides, setGuides] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
         fetch('http://localhost:5000/ourpackages')
             .then((res) => res.json())
@@ -52,9 +54,10 @@ const TourismAndTravelGuide = () => {
                                         Price: ${pkg.price}
                                     </p>
                                     <button
-                                        // onClick={() => navigate(/packages/${pkg._id})}
+                                        onClick={() => navigate(`/packages/${pkg._id}`)}
                                         className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded-lg hover:bg-[#3F0113] hover:text-[#FFA500] transition"
-                                    >View Details
+                                    >
+                                        View Details
                                     </button>
                                 </div>
                             ))}
