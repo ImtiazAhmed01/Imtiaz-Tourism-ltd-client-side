@@ -12,6 +12,7 @@ import ProtectedRoute from './Component/ProtectedRoute/ProtectedRoute'
 import TouristDashboard from './Component/UserDashboard/TouristDashboard'
 import PackageDetails from './Component/PackageDetails/PackageDetails'
 import AllTripsPage from './Component/AllTripsPage/AllTripsPage'
+import Community from './Component/Community/Community'
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: '/alltirpspages',
         element: <AllTripsPage></AllTripsPage>
+      },
+      {
+        path: '/community',
+        element: <Community></Community>
       }
     ]
   },

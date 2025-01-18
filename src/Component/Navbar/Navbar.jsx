@@ -116,7 +116,7 @@ const Navbar = () => {
                     </NavLink>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1 text-[#FFFFFF]">{links}</ul>
+                    <ul className="menu menu-horizontal px-1">{links}</ul>
                 </div>
                 <div className="navbar-end gap-4 flex items-center">
                     {user && user.photoURL && (
