@@ -10,18 +10,22 @@ const TouristStorySection = ({ isLoggedIn }) => {
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const response = await fetch('https://localhost:5000/stories/random'); // Replace with your backend API URL
+                const response = await fetch('http://localhost:5000/stories/random'); // Replace with your backend API URL
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 // Randomize and select 4 stories
-                const randomStories = data.sort(() => 0.5 - Math.random()).slice(0, 4);
+                const randomStories = data.sort(() => Math.random() - 0.5).slice(0, 4);
                 setStories(randomStories);
             } catch (error) {
-                console.error('Error fetching stories:', error);
+                console.error('Error fetching stories:', error.message);
             }
         };
 
         fetchStories();
     }, []);
+
 
     // Handle share button click
     const handleShare = (storyUrl) => {
@@ -41,7 +45,25 @@ const TouristStorySection = ({ isLoggedIn }) => {
                             alt={story.title}
                             className="w-full h-48 object-cover rounded mb-4"
                         />
-                        <h3 className="text-lg font-bold">{story.title}</h3>
+                        <div className='flex'>
+                            <div className='w-1/3'>
+                                <img
+                                    className="w-20 h-20 rounded-full"
+                                    src={story.userImage || '/default-avatar.png'}
+                                    alt={`${story.userName}'s profile picture`}
+                                    onError={(e) => {
+                                        e.target.src = '/default-avatar.png'; // Fallback image
+                                    }}
+                                />
+                                <p>{story.userName}</p>
+                            </div>
+
+                            <div className='w-2/3'>
+                                <h3 className="text-lg font-bold">{story.title}</h3>
+
+                            </div>
+
+                        </div>
                         <p className="text-sm text-gray-700 mt-2">{story.text.substring(0, 100)}...</p>
                         <div className="mt-4 flex items-center justify-between">
                             <FacebookShareButton
