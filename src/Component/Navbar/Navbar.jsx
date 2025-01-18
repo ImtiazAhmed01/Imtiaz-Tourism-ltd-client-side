@@ -40,7 +40,7 @@ const Navbar = () => {
             </li>
             <li className="mx-1">
                 <NavLink
-                    to="/about-us"
+                    to="/aboutus"
                     className={({ isActive }) =>
                         `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
                     }

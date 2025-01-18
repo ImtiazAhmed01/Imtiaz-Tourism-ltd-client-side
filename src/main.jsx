@@ -13,6 +13,7 @@ import TouristDashboard from './Component/UserDashboard/TouristDashboard'
 import PackageDetails from './Component/PackageDetails/PackageDetails'
 import AllTripsPage from './Component/AllTripsPage/AllTripsPage'
 import Community from './Component/Community/Community'
+import AboutUsPage from './Component/AboutUsPage/AboutUsPage'
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: '/community',
         element: <Community></Community>
+      },
+      {
+        path: '/aboutus',
+        element: <AboutUsPage></AboutUsPage>
       }
     ]
   },
