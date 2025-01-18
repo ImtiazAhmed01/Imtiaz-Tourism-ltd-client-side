@@ -29,7 +29,7 @@ const AllTripsPage = () => {
                                 className="w-full h-48 object-cover rounded-md"
                             />
                             <h3 className="text-xl font-bold mt-4">{pkg.name}</h3>
-                            <p className="text-gray-700 mt-2">{pkg.description}</p>
+                            <p className="text-gray-700 mt-2">{pkg.tourtype}</p>
                             <p className="text-lg font-semibold text-[#3F0113] mt-4">
                                 Price: ${pkg.price}
                             </p>

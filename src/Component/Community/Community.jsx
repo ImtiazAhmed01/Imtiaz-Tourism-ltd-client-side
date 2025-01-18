@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const Community = ({ isLoggedIn }) => {
     const [stories, setStories] = useState([]);
     const navigate = useNavigate();
+    const [selectedStory, setSelectedStory] = useState(null); // For modal data
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
 
     useEffect(() => {
@@ -30,13 +32,23 @@ const Community = ({ isLoggedIn }) => {
             navigate('/login');
         }
     };
+    const handleStoryClick = (story) => {
+        setSelectedStory(story);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedStory(null);
+    };
 
     return (
         <div className="tourist-story-section p-6">
             <h2 className="text-2xl font-bold mb-4">Tourist Stories</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stories.map((story) => (
-                    <div key={story.id || story._id} className="story-card bg-white rounded shadow p-4">
+                    <div key={story.id || story._id} className="story-card bg-white rounded shadow p-4 cursor-pointer"
+                        onClick={() => handleStoryClick(story)}>
                         <img
                             src={story.image}
                             alt={story.title || 'Story Image'}
@@ -95,8 +107,42 @@ const Community = ({ isLoggedIn }) => {
                     Add Stories
                 </button>
             </div>
+
+            {/* Modal */}
+            {isModalOpen && selectedStory && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded shadow-lg max-w-lg w-full">
+                        <img
+                            src={selectedStory.image}
+                            alt={selectedStory.title || 'Story Image'}
+                            className="w-full h-48 object-cover rounded mb-4"
+                        />
+                        <h3 className="text-2xl font-bold mb-2">{selectedStory.title || 'Untitled Story'}</h3>
+                        <p className="text-gray-700 mb-4">{selectedStory.text || 'No description available.'}</p>
+                        <div className="flex justify-end space-x-4">
+                            <FacebookShareButton
+                                url={selectedStory.image || 'http://localhost:3000'} // Replace with appropriate story URL
+                                quote={selectedStory.title || 'Check out this amazing story!'}
+                            >
+                                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                    Share on Facebook
+                                </button>
+                            </FacebookShareButton>
+                            <button
+                                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                                onClick={closeModal}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
 
 export default Community;
+
+

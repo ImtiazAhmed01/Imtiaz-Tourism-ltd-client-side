@@ -3,6 +3,8 @@ import MyCarousel from './MyCarousel';
 import OverviewSection from './OverviewSection';
 import TourismAndTravelGuide from './TourismAndTravelGuide';
 import TouristStorySection from './touristStorySection';
+import TopDestination from './TopDestination';
+import CulturalHighlightBD from './culturalHighlightBD';
 
 const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -29,6 +31,13 @@ const Home = () => {
             </div>
             <div>
                 <TouristStorySection></TouristStorySection>
+            </div>
+            <div>
+                <TopDestination></TopDestination>
+            </div>
+            <div>
+                <CulturalHighlightBD></CulturalHighlightBD>
+
             </div>
         </div>
     );
