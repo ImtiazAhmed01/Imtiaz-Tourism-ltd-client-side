@@ -18,13 +18,12 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
 
-    // Create new user
+
     const createUser = async (email, password, userDetails) => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const newUser = userCredential.user;
 
-            // Update user profile
             await updateProfile(newUser, {
                 displayName: userDetails.displayName,
                 photoURL: userDetails.photoURL,
@@ -137,6 +136,20 @@ const AuthProvider = ({ children }) => {
             throw error;
         }
     };
+    // onAuthStateChanged(auth, async (user) => {
+    //     if (user) {
+    //         try {
+    //             const response = await fetch(`http://localhost:5000/register/${user.uid}`);
+    //             const userDetails = await response.json();
+    //             setUser({ ...user, ...userDetails });
+    //         } catch (error) {
+    //             console.error("Error fetching user data:", error);
+    //         }
+    //     } else {
+    //         setUser(null);
+    //     }
+    // });
+
 
     // Handle auth state change (user logged in/out)
     useEffect(() => {

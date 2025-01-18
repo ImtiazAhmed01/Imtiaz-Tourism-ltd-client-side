@@ -11,7 +11,14 @@ const firebaseConfig = {
     messagingSenderId: import.meta.env.VITE_messagingSenderId,
     appId: import.meta.env.VITE_appId,
 };
-
+// const firebaseConfig = {
+//     apiKey: "AIzaSyDqwgSpLHKZXyxnXM39qCmLvBx6Who-Ces",
+//     authDomain: "imtiaz-tourism-ltd.firebaseapp.com",
+//     projectId: "imtiaz-tourism-ltd",
+//     storageBucket: "imtiaz-tourism-ltd.firebasestorage.app",
+//     messagingSenderId: "1084650346978",
+//     appId: "1:1084650346978:web:075f773af36a21515ac1bb"
+// };
 
 
 // Initialize Firebase

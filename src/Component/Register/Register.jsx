@@ -47,7 +47,7 @@ const Register = () => {
             return false;
         }
 
-        setPasswordError(""); // Clear error if validation passes
+        setPasswordError("");
         return true;
     };
 
@@ -61,6 +61,8 @@ const Register = () => {
         if (passwordValidationError) errors.password = passwordValidationError;
         return errors;
     };
+
+
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -86,6 +88,7 @@ const Register = () => {
 
         try {
             const auth = getAuth();
+
             const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
             const user = userCredential.user;
 
@@ -111,6 +114,15 @@ const Register = () => {
             });
 
             navigate("/");
+
+            // const userDetails = {
+            //     userRole: "tourist",
+            //     name: `${formData.fname} ${formData.lname}`,
+            //     email: user.email,
+            //     registrationDate: new Date().toISOString(),
+            //     userUrl: user.photoURL || "default-url",
+            // };
+            // saveUserToDB(userDetails);
         } catch (error) {
             console.error("Error creating user:", error.message);
             toast.error("Error creating user. Please try again.", {
@@ -121,6 +133,24 @@ const Register = () => {
             });
         }
     };
+
+    // const saveUserToDB = async (user) => {
+    //     try {
+    //         const response = await fetch("http://localhost:5000/register", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify(user),
+    //         });
+    //         if (!response.ok) {
+    //             throw new Error("Failed to save user to the database");
+    //         }
+    //     } catch (error) {
+    //         console.error("Error saving user to database:", error);
+    //     }
+    // };
+
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);

@@ -1,3 +1,4 @@
+
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useContext, useState } from "react";
@@ -5,10 +6,8 @@ import { AuthContext } from "../Provider/authProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 
-
-
 const Login = () => {
-    const { signInUser, signInWithGoogle } = useContext(AuthContext);
+    const { signInUser, signInWithGoogle, sendPasswordResetEmail } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
@@ -73,6 +72,36 @@ const Login = () => {
         }
     };
 
+    const handleForgotPassword = async () => {
+        if (!email) {
+            toast.error('Please enter your email address to reset your password.', {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+            return;
+        }
+
+        try {
+            await sendPasswordResetEmail(email);
+            toast.success('Password reset email sent successfully!', {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+        } catch (error) {
+            console.error("Password reset failed:", error.message);
+            toast.error('Failed to send password reset email. Please try again.', {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+        }
+    };
+
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);
     };
@@ -127,9 +156,13 @@ const Login = () => {
                             </svg>
                         </div>
                         <label className="label">
-                            <Link to={`/forgot-password?email=${email}`} className="label-text-alt link link-hover">
+                            <button
+                                type="button"
+                                className="label-text-alt link link-hover"
+                                onClick={handleForgotPassword}
+                            >
                                 Forgot password?
-                            </Link>
+                            </button>
                         </label>
                     </div>
 
@@ -190,3 +223,4 @@ const Login = () => {
 };
 
 export default Login;
+
