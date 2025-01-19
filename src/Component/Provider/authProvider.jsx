@@ -130,25 +130,26 @@ const AuthProvider = ({ children }) => {
     const sendForgotPasswordEmail = async (email) => {
         try {
             await sendPasswordResetEmail(auth, email);
-            console.log("Password reset email sent!");
+            console.log("Password reset email sent successfully!");
         } catch (error) {
             console.error("Error sending password reset email:", error.message);
             throw error;
         }
     };
-    // onAuthStateChanged(auth, async (user) => {
-    //     if (user) {
-    //         try {
-    //             const response = await fetch(`http://localhost:5000/register/${user.uid}`);
-    //             const userDetails = await response.json();
-    //             setUser({ ...user, ...userDetails });
-    //         } catch (error) {
-    //             console.error("Error fetching user data:", error);
-    //         }
-    //     } else {
-    //         setUser(null);
-    //     }
-    // });
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            try {
+                const response = await fetch(`http://localhost:5000/register/${user.uid}`);
+                const userDetails = await response.json();
+                setUser({ ...user, ...userDetails });
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        } else {
+            setUser(null);
+        }
+    });
 
 
     // Handle auth state change (user logged in/out)

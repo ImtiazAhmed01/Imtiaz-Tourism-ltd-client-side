@@ -28,28 +28,12 @@ const Register = () => {
     };
 
     const validatePassword = (password) => {
-        const hasUppercase = /[A-Z]/.test(password);
-        const hasLowercase = /[a-z]/.test(password);
-        const isLongEnough = password.length >= 6;
-
-        if (!hasUppercase) {
-            setPasswordError("Password must contain at least one uppercase letter.");
-            return false;
-        }
-
-        if (!hasLowercase) {
-            setPasswordError("Password must contain at least one lowercase letter.");
-            return false;
-        }
-
-        if (!isLongEnough) {
-            setPasswordError("Password must be at least 6 characters long.");
-            return false;
-        }
-
-        setPasswordError("");
-        return true;
+        if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter.";
+        if (!/[a-z]/.test(password)) return "Password must contain at least one lowercase letter.";
+        if (password.length < 6) return "Password must be at least 6 characters long.";
+        return "";
     };
+
 
     const validateForm = ({ fname, lname, email, password }) => {
         const errors = {};
@@ -73,9 +57,11 @@ const Register = () => {
             password: e.target.password.value,
             imageURL: e.target.imageURL.value,
         };
+        console.log("Form Data:", formData); // Debug form data
 
         const errors = validateForm(formData);
         if (Object.keys(errors).length > 0) {
+            console.log("Validation Errors:", errors); // Debug validation errors
             setFormErrors(errors);
             toast.error("Please fix the errors in the form.", {
                 position: "top-center",
@@ -89,22 +75,37 @@ const Register = () => {
         try {
             const auth = getAuth();
 
+            // Create user with Firebase
             const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
             const user = userCredential.user;
 
+            // Update user profile in Firebase
             await updateProfile(user, {
                 displayName: `${formData.fname} ${formData.lname}`,
                 photoURL: formData.imageURL,
             });
 
-            localStorage.setItem(
-                "userProfile",
-                JSON.stringify({
-                    displayName: `${formData.fname} ${formData.lname}`,
+            // Send user data to server
+            // Send user data to server
+            const serverResponse = await fetch("http://localhost:5000/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstName: formData.fname,
+                    lastName: formData.lname,
+                    email: formData.email,
                     photoURL: formData.imageURL,
-                    email: user.email,
-                })
-            );
+                    registrationDate: new Date().toISOString(),
+                }),
+            });
+
+
+
+            if (!serverResponse.ok) {
+                throw new Error("Failed to save user data to the server.");
+            }
 
             toast.success("User created successfully!", {
                 position: "top-center",
@@ -115,14 +116,6 @@ const Register = () => {
 
             navigate("/");
 
-            // const userDetails = {
-            //     userRole: "tourist",
-            //     name: `${formData.fname} ${formData.lname}`,
-            //     email: user.email,
-            //     registrationDate: new Date().toISOString(),
-            //     userUrl: user.photoURL || "default-url",
-            // };
-            // saveUserToDB(userDetails);
         } catch (error) {
             console.error("Error creating user:", error.message);
             toast.error("Error creating user. Please try again.", {
@@ -134,22 +127,6 @@ const Register = () => {
         }
     };
 
-    // const saveUserToDB = async (user) => {
-    //     try {
-    //         const response = await fetch("http://localhost:5000/register", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify(user),
-    //         });
-    //         if (!response.ok) {
-    //             throw new Error("Failed to save user to the database");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error saving user to database:", error);
-    //     }
-    // };
 
 
     const togglePasswordVisibility = () => {
