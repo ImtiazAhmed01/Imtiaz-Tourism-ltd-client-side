@@ -1,20 +1,24 @@
-// import React, { useContext } from "react";
+// import React, { useContext, useState } from "react";
 // import { NavLink, useNavigate } from "react-router-dom";
 // import { AuthContext } from "../Provider/authProvider";
+
 // const Navbar = () => {
 //     const { user, signOutUser } = useContext(AuthContext);
 //     const navigate = useNavigate();
+//     const [dropdownOpen, setDropdownOpen] = useState(false);
 
 //     const handleLogout = async () => {
 //         try {
 //             await signOutUser();
 //             console.log("User logged out successfully");
-//             navigate("/");  // Redirect to home after logout
+//             navigate("/"); // Redirect to home after logout
 //         } catch (error) {
 //             console.error("Logout error:", error.message);
 //             alert("Failed to log out. Please try again.");
 //         }
 //     };
+
+//     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
 //     const links = (
 //         <>
@@ -58,16 +62,6 @@
 //                     All Trips
 //                 </NavLink>
 //             </li>
-
-//             {user && user.displayName && (
-//                 <>
-//                     <li>
-//                         <NavLink to="" activeclassname="active">
-//                             My Bookings
-//                         </NavLink>
-//                     </li>
-//                 </>
-//             )}
 //         </>
 //     );
 
@@ -120,34 +114,37 @@
 //                 </div>
 //                 <div className="navbar-end gap-4 flex items-center">
 //                     {user && user.photoURL && (
-//                         <div className="relative group">
+//                         <div className="relative">
 //                             <img
 //                                 src={user.photoURL}
 //                                 alt="User Avatar"
-//                                 className="w-8 h-8 rounded-full"
+//                                 className="w-8 h-8 rounded-full cursor-pointer"
+//                                 onClick={toggleDropdown}
 //                             />
-//                             <div
-//                                 className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-sm bg-black bg-opacity-75 py-1 px-2 rounded-lg text-[#3F0113] opacity-0 group-hover:opacity-100 transition-opacity"
-//                             >
-//                                 {user.displayName}
-//                             </div>
+//                             {dropdownOpen && (
+//                                 <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-10">
+//                                     <div className="px-4 py-2 text-sm text-gray-700">
+//                                         <p className="font-bold">{user.displayName}</p>
+//                                         <p>{user.email}</p>
+//                                     </div>
+//                                     <hr />
+//                                     <NavLink
+//                                         to="/dashboard"
+//                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+//                                     >
+//                                         Dashboard
+//                                     </NavLink>
+//                                     <button
+//                                         onClick={handleLogout}
+//                                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+//                                     >
+//                                         Logout
+//                                     </button>
+//                                 </div>
+//                             )}
 //                         </div>
 //                     )}
-//                     {user && user.displayName ? (
-//                         <div className="flex items-center gap-4">
-//                             <button
-//                                 className="btn"
-//                                 style={{
-//                                     backgroundColor: "#DDA15E",
-//                                     color: "#3F0113",
-//                                     border: "none",
-//                                 }}
-//                                 onClick={handleLogout}
-//                             >
-//                                 Log Out
-//                             </button>
-//                         </div>
-//                     ) : (
+//                     {!user && (
 //                         <div className="flex gap-4">
 //                             <NavLink
 //                                 to="/register"
@@ -174,9 +171,7 @@
 // };
 
 // export default Navbar;
-
-
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/authProvider";
 
@@ -184,6 +179,23 @@ const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        if (user) {
+            fetch(`http://localhost:5000/users/role?email=${user.email}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data.role);
+                    setUserRole(data.role); // Assuming API returns { role: "Tourist" } or similar
+                })
+                .catch((error) => {
+                    console.error("Error fetching user role:", error);
+                });
+        }
+    }, [user]);
+
+
 
     const handleLogout = async () => {
         try {
@@ -242,6 +254,19 @@ const Navbar = () => {
             </li>
         </>
     );
+
+    const dashboardLink = () => {
+        switch (userRole) {
+            case "Tourist":
+                return "/dashboard/tourist";
+            case "Tour Guide":
+                return "/dashboard/tourguide";
+            case "Admin":
+                return "/dashboard/admin";
+            default:
+                return null;
+        }
+    };
 
     return (
         <div>
@@ -306,12 +331,14 @@ const Navbar = () => {
                                         <p>{user.email}</p>
                                     </div>
                                     <hr />
-                                    <NavLink
-                                        to="/dashboard"
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    >
-                                        Dashboard
-                                    </NavLink>
+                                    {dashboardLink() && (
+                                        <NavLink
+                                            to={dashboardLink()}
+                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        >
+                                            Dashboard
+                                        </NavLink>
+                                    )}
                                     <button
                                         onClick={handleLogout}
                                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

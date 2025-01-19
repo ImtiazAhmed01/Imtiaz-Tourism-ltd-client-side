@@ -14,6 +14,11 @@ import PackageDetails from './Component/PackageDetails/PackageDetails'
 import AllTripsPage from './Component/AllTripsPage/AllTripsPage'
 import Community from './Component/Community/Community'
 import AboutUsPage from './Component/AboutUsPage/AboutUsPage'
+import TourGuideDashboard from './Component/UserDashboard/TourGuideDashboard'
+import AdminDashboard from './Component/UserDashboard/AdminDashboard'
+import Layout2 from './Component/Layout2'
+import TouristManageProfile from './Component/Tourist/TouristManageProfile'
+import JoinAsTourGuide from './Component/Tourist/JoinAsTourGuide'
 
 const router = createBrowserRouter([
   {
@@ -51,8 +56,32 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "/dashboard/tourist",
-    element: <ProtectedRoute allowedRoles={['tourist']}><TouristDashboard></TouristDashboard></ProtectedRoute>
+    path: '/',
+    element: <Layout2></Layout2>,
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
+      {
+        path: "/dashboard/tourist",
+        element: <ProtectedRoute allowedRoles={['Tourist']}><TouristDashboard></TouristDashboard></ProtectedRoute>
+      },
+      {
+        path: '/dashboard/tourist/manageProfile',
+        element: <TouristManageProfile></TouristManageProfile>
+      },
+      {
+        path: '/dashboard/tourist/joinguide',
+        element: <JoinAsTourGuide></JoinAsTourGuide>
+      },
+      {
+        path: "dashboard/tourguide",
+        element: <ProtectedRoute allowedRoles={['Tour Guide']}><TourGuideDashboard></TourGuideDashboard></ProtectedRoute>
+      },
+      {
+        path: "dashboard/admin",
+        element: <ProtectedRoute allowedRoles={['Admin']}><AdminDashboard></AdminDashboard></ProtectedRoute>
+      }
+    ]
+
 
   }
 ])
