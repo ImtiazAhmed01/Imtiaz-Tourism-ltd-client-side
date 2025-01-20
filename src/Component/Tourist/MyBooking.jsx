@@ -1,44 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../Provider/authProvider';
+import { Link } from 'react-router-dom';
 
 const MyBooking = () => {
+    const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
 
     useEffect(() => {
-        const fetchBookings = async () => {
-            const response = await fetch(`/bookings?email=${user.email}`);
-            const data = await response.json();
-            setBookings(data);
-        };
+        if (!user?.email) return;
 
-        fetchBookings();
-    }, []);
-
-    const handlePay = async (bookingId, price) => {
-        const response = await fetch('/pay', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ bookingId, amount: price * 100 }), // Stripe requires amount in cents
-        });
-
-        const { clientSecret } = await response.json();
-
-        const stripe = window.Stripe('your_stripe_public_key');
-        const { error } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: cardElement, // Assumes you have a Stripe Element for the card details
-            },
-        });
-
-        if (error) {
-            console.error('Payment failed', error);
-        } else {
-            console.log('Payment successful');
-            // Optionally, update UI to reflect payment success
-        }
-    };
+        fetch(`http://localhost:5000/bookings?email=${user.email}`)
+            .then((res) => res.json())
+            .then((data) => setBookings(data))
+            .catch((error) => console.error('Error fetching bookings:', error));
+    }, [user]);
 
     const handleCancel = async (bookingId) => {
-        // Implement cancel logic here, e.g., call an API to update booking status to "Cancelled"
+        try {
+            const response = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'Cancelled' }),
+            });
+            if (response.ok) {
+                setBookings((prev) => prev.filter((booking) => booking._id !== bookingId));
+            }
+        } catch (error) {
+            console.error('Error cancelling booking:', error);
+        }
     };
 
     return (
@@ -59,21 +48,25 @@ const MyBooking = () => {
                     {bookings.map((booking) => (
                         <tr key={booking._id} className="border-b hover:bg-gray-100">
                             <td className="px-4 py-2">{booking.packageName}</td>
-                            <td className="px-4 py-2">{booking.tourGuide}</td>
-                            <td className="px-4 py-2">{new Date(booking.tourDate).toLocaleDateString()}</td>
-                            <td className="px-4 py-2">${booking.tourPrice}</td>
+                            <td className="px-4 py-2">{booking.guideName}</td>
+                            <td className="px-4 py-2">
+                                {new Date(booking.tourDate).toLocaleDateString()}
+                            </td>
+                            <td className="px-4 py-2">${booking.price}</td>
                             <td className="px-4 py-2">{booking.status}</td>
                             <td className="px-4 py-2">
-                                {booking.status === 'Pending' && (
+                                {booking.status === 'pending' && (
                                     <>
-                                        <button
+                                        <Link
+                                            to={`/payment/${booking._id}`}
                                             className="btn btn-success mr-2"
-                                            onClick={() => handlePay(booking._id, booking.tourPrice)}>
+                                        >
                                             Pay
-                                        </button>
+                                        </Link>
                                         <button
                                             className="btn btn-error"
-                                            onClick={() => handleCancel(booking._id)}>
+                                            onClick={() => handleCancel(booking._id)}
+                                        >
                                             Cancel
                                         </button>
                                     </>

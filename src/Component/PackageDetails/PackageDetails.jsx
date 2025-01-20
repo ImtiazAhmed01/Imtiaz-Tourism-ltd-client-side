@@ -38,7 +38,7 @@ const PackageDetails = () => {
         const bookingData = {
             packageId: id,
             packageName: packageDetails.name,
-            touristName: user.name,
+            touristName: user.displayName,
             touristEmail: user.email,
             touristImage: user.image,
             price: packageDetails.price,
@@ -46,6 +46,8 @@ const PackageDetails = () => {
             guideName: selectedGuide,
             status: "pending",
         };
+
+        console.log("Booking data to send:", bookingData);
 
         fetch("http://localhost:5000/bookings", {
             method: "POST",
@@ -55,11 +57,19 @@ const PackageDetails = () => {
             body: JSON.stringify(bookingData),
         })
             .then((res) => res.json())
-            .then(() => {
-                setShowModal(true);
+            .then((data) => {
+                console.log("Booking response:", data);
+                if (data.bookingId) {
+                    setShowModal(true);
+                } else {
+                    alert("Booking failed. Please try again.");
+                }
             })
-            .catch((error) => console.error("Error creating booking:", error));
+            .catch((error) => {
+                console.error("Error creating booking:", error);
+            });
     };
+
 
     if (!packageDetails) return <div>Loading...</div>;
 
@@ -244,7 +254,7 @@ const PackageDetails = () => {
                         <button
                             onClick={() => {
                                 setShowModal(false);
-                                navigate("/dashboard/tourist/myBookings");
+                                navigate('/dashboard/tourist/myBookings');
                             }}
                             className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
                         >

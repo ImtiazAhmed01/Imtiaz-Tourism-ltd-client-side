@@ -20,6 +20,13 @@ import Layout2 from './Component/Layout2'
 import TouristManageProfile from './Component/Tourist/TouristManageProfile'
 import JoinAsTourGuide from './Component/Tourist/JoinAsTourGuide'
 import MyBooking from './Component/Tourist/MyBooking'
+import Payment from './Component/Tourist/Payment'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import AddStories from './Component/Tourist/AddStories'
+import ManageStories from './Component/Tourist/ManageStories'
+
+const stripePromise = loadStripe('pk_test_51QjKgaAwC1fImaEQKbRyeHqq3iw3ufeIP1FU4awqUbJeavujVfjrOmIsnFtx5Rb98KteM18htlYTO4caZztCMqkA00G1ifOgo6');
 
 const router = createBrowserRouter([
   {
@@ -74,8 +81,22 @@ const router = createBrowserRouter([
         element: <JoinAsTourGuide></JoinAsTourGuide>
       },
       {
+
+        path: "/payment/:id",
+        element: <Payment></Payment>
+
+      },
+      {
         path: '/dashboard/tourist/myBookings',
         element: <MyBooking></MyBooking>
+      },
+      {
+        path: '/addstories',
+        element: <AddStories></AddStories>
+      },
+      {
+        path: '/manage-stories',
+        element: <ManageStories></ManageStories>
       },
       {
         path: "dashboard/tourguide",
@@ -94,7 +115,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}></RouterProvider>
+      <Elements stripe={stripePromise}>
+        <RouterProvider router={router}></RouterProvider>
+      </Elements>
     </AuthProvider>
   </StrictMode>,
 )

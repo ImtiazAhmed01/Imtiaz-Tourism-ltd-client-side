@@ -78,7 +78,7 @@ const SideBar = () => {
                     </li>
                     <li style={sidebarItemStyle}>
                         <NavLink
-                            to="/dashboard/tourist/manageStories"
+                            to="/manage-stories"
                             style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
                         >
                             Manage Stories
@@ -86,7 +86,7 @@ const SideBar = () => {
                     </li>
                     <li style={sidebarItemStyle}>
                         <NavLink
-                            to="/dashboard/tourist/addStories"
+                            to="/addstories"
                             style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
                         >
                             Add Stories
