@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    // Update user profile
+
     const updateUserProfile = async (updatedUser) => {
         try {
             if (auth.currentUser) {
@@ -68,7 +68,7 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    // Sign out user
+
     const signOutUser = async () => {
         try {
             await signOut(auth);
@@ -80,19 +80,30 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    // Check if user is authenticated
     const isAuthenticated = () => {
         const token = localStorage.getItem("authToken");
         return !!token;
     };
 
-    // Sign in with Google
+
     const signInWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
-            setUser(user);
-            localStorage.setItem("userProfile", JSON.stringify(user));
+
+            const token = await user.getIdToken();
+
+            const userData = {
+                email: user.email,
+                displayName: user.displayName || "Tourist",
+                photoURL: user.photoURL,
+                role: "tourist",
+            };
+
+            localStorage.setItem("authToken", token);
+            localStorage.setItem("userProfile", JSON.stringify(userData));
+
+            setUser(userData);
             return user;
         } catch (error) {
             console.error("Google Sign-In error:", error.message);
@@ -100,19 +111,21 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    // Sign in with email and password
+
+
+
+
     const signInUser = async (email, password) => {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
             const user = response.user;
 
-            // Assuming the backend sends a token
-            const token = await user.getIdToken(); // Get Firebase auth token
+            const token = await user.getIdToken();
             const userData = {
                 email: user.email,
                 displayName: user.displayName || "Tourist",
                 photoURL: user.photoURL,
-                role: "tourist", // Default role
+                role: "tourist",
             };
 
             localStorage.setItem("authToken", token);
@@ -156,17 +169,23 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
-                setUser(currentUser);
-                localStorage.setItem("userProfile", JSON.stringify(currentUser));
+                const userData = {
+                    email: currentUser.email, // Ensure email is included
+                    displayName: currentUser.displayName || "Tourist",
+                    photoURL: currentUser.photoURL,
+                    role: "tourist",
+                };
+                setUser(userData);
+                localStorage.setItem("userProfile", JSON.stringify(userData));
             } else {
                 setUser(null);
                 localStorage.removeItem("userProfile");
             }
             setLoading(false);
         });
-
         return () => unsubscribe();
     }, []);
+
 
     return (
         <AuthContext.Provider
@@ -179,6 +198,7 @@ const AuthProvider = ({ children }) => {
                 updateUserProfile,
                 sendForgotPasswordEmail,
                 isAuthenticated,
+
             }}
         >
             {!loading && children}

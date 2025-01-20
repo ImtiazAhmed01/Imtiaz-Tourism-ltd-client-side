@@ -14,8 +14,42 @@ const Register = () => {
 
     const handleGoogleSignIn = async () => {
         try {
-            await signInWithGoogle();
-            navigate("/");
+            const auth = getAuth();
+            const result = await signInWithGoogle(); // Assuming signInWithGoogle handles Firebase Google sign-in
+            const user = auth.currentUser;
+
+            // Check if the user object is valid
+            if (user) {
+                const userData = {
+                    firstName: user.displayName.split(" ")[0] || "Google User",
+                    lastName: user.displayName.split(" ")[1] || "",
+                    email: user.email,
+                    photoURL: user.photoURL,
+                    registrationDate: new Date().toISOString(),
+                };
+
+                // Send user data to the backend
+                const serverResponse = await fetch("http://localhost:5000/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(userData),
+                });
+
+                if (!serverResponse.ok) {
+                    throw new Error("Failed to save Google user data to the server.");
+                }
+
+                toast.success("Google sign-in successful, and user data saved!", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    theme: "light",
+                    transition: Bounce,
+                });
+
+                navigate("/");
+            }
         } catch (error) {
             console.error("Google login failed:", error.message);
             toast.error("Google sign-in failed. Please try again.", {
@@ -26,6 +60,7 @@ const Register = () => {
             });
         }
     };
+
 
     const validatePassword = (password) => {
         if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter.";
@@ -57,11 +92,11 @@ const Register = () => {
             password: e.target.password.value,
             imageURL: e.target.imageURL.value,
         };
-        console.log("Form Data:", formData); // Debug form data
+        console.log("Form Data:", formData);
 
         const errors = validateForm(formData);
         if (Object.keys(errors).length > 0) {
-            console.log("Validation Errors:", errors); // Debug validation errors
+            console.log("Validation Errors:", errors);
             setFormErrors(errors);
             toast.error("Please fix the errors in the form.", {
                 position: "top-center",
@@ -74,19 +109,14 @@ const Register = () => {
 
         try {
             const auth = getAuth();
-
-            // Create user with Firebase
             const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
             const user = userCredential.user;
-
-            // Update user profile in Firebase
             await updateProfile(user, {
                 displayName: `${formData.fname} ${formData.lname}`,
                 photoURL: formData.imageURL,
             });
 
-            // Send user data to server
-            // Send user data to server
+            // data to server
             const serverResponse = await fetch("http://localhost:5000/register", {
                 method: "POST",
                 headers: {

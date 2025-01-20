@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TourPlanSection from "./TourPlanSection";
+import { AuthContext } from "../Provider/authProvider";
 
 const PackageDetails = () => {
     const { id } = useParams();
@@ -13,9 +14,10 @@ const PackageDetails = () => {
     const [selectedGuide, setSelectedGuide] = useState("");
     const [showModal, setShowModal] = useState(false);
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
+        console.log("User:", user);
         fetch(`http://localhost:5000/ourpackages/${id}`)
             .then((res) => res.json())
             .then((data) => setPackageDetails(data))
@@ -114,9 +116,21 @@ const PackageDetails = () => {
 
 
                 {/* About the Tour Section */}
-                <div className="mb-8">
+                <div className="mb-8 px-10">
                     <h3 className="text-2xl font-bold mb-4">About the Tour</h3>
-                    <p>{packageDetails.description}</p>
+                    <p>{packageDetails.tourtype}</p>
+                    <p className="text-xl font-semibold mb-4">Included:</p>
+                    <ul className="list-disc pl-6 text-gray-700 space-y-2">
+                        {packageDetails.included.map((item, index) => (
+                            <li key={index} className="text-lg">{item}</li>
+                        ))}
+                    </ul>
+                    <p className="text-xl font-semibold mb-4">Highlightes:</p>
+                    <ul className="list-disc pl-6 text-gray-700 space-y-2">
+                        {packageDetails.highlights.map((item, index) => (
+                            <li key={index} className="text-lg">{item}</li>
+                        ))}
+                    </ul>
                 </div>
 
                 {/* Tour Plan Section */}
@@ -164,7 +178,7 @@ const PackageDetails = () => {
                             <label className="block text-gray-700 font-bold mb-2">Tourist Name</label>
                             <input
                                 type="text"
-                                value={user?.name || ""}
+                                value={user?.displayName || ""}
                                 readOnly
                                 className="w-full border rounded-md p-2"
                             />
@@ -230,7 +244,7 @@ const PackageDetails = () => {
                         <button
                             onClick={() => {
                                 setShowModal(false);
-                                navigate("/mybookings");
+                                navigate("/dashboard/tourist/myBookings");
                             }}
                             className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
                         >

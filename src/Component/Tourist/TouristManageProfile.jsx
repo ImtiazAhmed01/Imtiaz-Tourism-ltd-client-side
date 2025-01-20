@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { AuthContext } from '../Provider/authProvider';
 
 const TouristManageProfile = () => {
-    const [user, setUser] = useState(null);
+    const { user } = useContext(AuthContext);
+    const [userData, setUserData] = useState(null);
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [editedUser, setEditedUser] = useState({});
 
     useEffect(() => {
         const fetchUserData = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/users');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data');
+            if (user?.email) {
+                try {
+                    const response = await fetch(`http://localhost:5000/users?email=${user.email}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user data');
+                    }
+                    const data = await response.json(); // Direct object
+                    setUserData(data); // Set the user object directly
+                } catch (error) {
+                    console.error('Error fetching user data:', error.message);
                 }
-                const data = await response.json();
-                setUser(data[0]);
-            } catch (error) {
-                console.error('Error fetching user data:', error.message);
+            } else {
+                console.log('No email available to fetch data.');
             }
         };
 
         fetchUserData();
-    }, []);
+    }, [user]);
+    // Re-run if user changes
 
     const handleEditChange = (e) => {
         const { name, value } = e.target;
@@ -44,7 +51,7 @@ const TouristManageProfile = () => {
                 return response.json();
             })
             .then((data) => {
-                setUser(data);
+                setUserData(data);
                 setEditModalOpen(false);
             })
             .catch((error) => {
@@ -52,33 +59,36 @@ const TouristManageProfile = () => {
             });
     };
 
+    if (!user) {
+        return <p>Loading user data...</p>;
+    }
+
     return (
         <div className="p-6">
             <div className="text-center font-sans">
                 <h1 className="text-2xl text-gray-700 mb-8 animate-slide-in">
                     Welcome to the Tourist Guide,{' '}
-                    <span className="font-semibold">{user ? user.fullName : 'Loading...'}</span>! We're thrilled to
-                    have you with us.As one of the best tourism platforms, we are committed to providing you with unforgettable experiences and detailed travel information about Bangladesh. Our goal is to ensure that every step of your journey is smooth, enjoyable, and filled with enriching experiences. We're here to guide you every step of the way, so you can make the most out of your travels. Let's explore together!
+                    <span className="font-semibold">{userData ? userData.fullName : 'Loading...'}</span>!
                 </h1>
 
                 <div className="flex justify-center items-center mt-8">
                     <img
-                        src={user?.photoURL || 'https://via.placeholder.com/150'}
+                        src={userData?.photoURL || 'https://via.placeholder.com/150'}
                         alt="User profile"
                         className="w-36 h-36 rounded-lg object-cover border-4 border-gray-700 transition-transform hover:scale-105 mr-8"
                     />
                     <div className="text-left text-gray-600">
                         <p>
-                            <strong className="text-red-500">Name:</strong> {user?.fullName || 'N/A'}
+                            <strong className="text-red-500">Name:</strong> {userData?.fullName || 'N/A'}
                         </p>
                         <p>
-                            <strong className="text-red-500">Role:</strong> {user?.userRole || 'Tourist'}
+                            <strong className="text-red-500">Role:</strong> {userData?.userRole || 'Tourist'}
                         </p>
                         <p>
-                            <strong className="text-red-500">Joined:</strong> {user?.registrationDate || 'N/A'}
+                            <strong className="text-red-500">Joined:</strong> {userData?.registrationDate || 'N/A'}
                         </p>
                         <p>
-                            <strong className="text-red-500">Email:</strong> {user?.email || 'N/A'}
+                            <strong className="text-red-500">Email:</strong> {userData?.email || 'N/A'}
                         </p>
                     </div>
                 </div>
@@ -90,7 +100,9 @@ const TouristManageProfile = () => {
                     >
                         Edit Profile
                     </button>
-                    <button className="btn btn-success" onClick={() => Navigate('/dashboard/tourist/joinguide')}>Apply For Tour Guide</button>
+                    <button className="btn btn-success" onClick={() => Navigate('/dashboard/tourist/joinguide')}>
+                        Apply For Tour Guide
+                    </button>
                 </div>
             </div>
 
@@ -104,7 +116,7 @@ const TouristManageProfile = () => {
                                 <input
                                     type="text"
                                     name="firstName"
-                                    value={editedUser.firstName || user?.firstName || ''}
+                                    value={editedUser.firstName || userData?.firstName || ''}
                                     onChange={handleEditChange}
                                     className="input input-bordered w-full"
                                 />
@@ -114,7 +126,7 @@ const TouristManageProfile = () => {
                                 <input
                                     type="text"
                                     name="lastName"
-                                    value={editedUser.lastName || user?.lastName || ''}
+                                    value={editedUser.lastName || userData?.lastName || ''}
                                     onChange={handleEditChange}
                                     className="input input-bordered w-full"
                                 />
@@ -124,7 +136,7 @@ const TouristManageProfile = () => {
                                 <input
                                     type="text"
                                     name="photoURL"
-                                    value={editedUser.photoURL || user?.photoURL || ''}
+                                    value={editedUser.photoURL || userData?.photoURL || ''}
                                     onChange={handleEditChange}
                                     className="input input-bordered w-full"
                                 />

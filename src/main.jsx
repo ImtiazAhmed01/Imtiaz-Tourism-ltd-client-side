@@ -19,6 +19,7 @@ import AdminDashboard from './Component/UserDashboard/AdminDashboard'
 import Layout2 from './Component/Layout2'
 import TouristManageProfile from './Component/Tourist/TouristManageProfile'
 import JoinAsTourGuide from './Component/Tourist/JoinAsTourGuide'
+import MyBooking from './Component/Tourist/MyBooking'
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: '/dashboard/tourist/joinguide',
         element: <JoinAsTourGuide></JoinAsTourGuide>
+      },
+      {
+        path: '/dashboard/tourist/myBookings',
+        element: <MyBooking></MyBooking>
       },
       {
         path: "dashboard/tourguide",
