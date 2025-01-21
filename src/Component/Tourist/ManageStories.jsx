@@ -12,29 +12,43 @@ const ManageStories = () => {
     // Fetch user's stories when the component is mounted
     const fetchStories = async () => {
         try {
+            console.log('Fetching stories for email:', user?.email); // Log user email
             const response = await fetch(`http://localhost:5000/stories?email=${user?.email}`, {
                 method: 'GET',
             });
 
+            console.log('Fetch response status:', response.status); // Log response status
             if (response.ok) {
                 const data = await response.json();
-                setStories(data.stories);
+                console.log('Fetched stories:', data.stories); // Log fetched stories
+                setStories(data.stories || []);
             } else {
+                console.error('Failed to fetch stories, status:', response.status); // Log failure details
                 toast.error('Failed to fetch stories');
             }
         } catch (error) {
-            console.error('Error fetching stories:', error);
+            console.error('Error fetching stories:', error); // Log any error
             toast.error('Error fetching stories');
         }
     };
 
 
-    // Edit story
-    const handleEdit = (storyId) => {
-        navigate(`/edit-story/${storyId}`);
+    useEffect(() => {
+        if (user?.email) {
+            fetchStories();
+        } else {
+            console.warn('User email is undefined');
+        }
+    }, [user?.email]);
+
+    const handleEdit = (story) => {
+        console.log('Navigating with story:', story); // Debug log
+        navigate(`/edit-story/${story._id}`, { state: { story } });
     };
 
-    // Delete story
+
+
+
     const handleDelete = async (storyId) => {
         try {
             const response = await fetch(`http://localhost:5000/stories/${storyId}`, {
@@ -96,7 +110,11 @@ const ManageStories = () => {
                         <div className="grid grid-cols-2 gap-2 mt-4">
                             {story.images && story.images.map((image, index) => (
                                 <div key={index} className="relative">
-                                    <img src={image} alt="Story" className="w-full h-32 object-cover rounded-md" />
+                                    <img
+                                        src={image}
+                                        alt={`Story image ${index + 1}`}
+                                        className="w-full h-32 object-cover rounded-md"
+                                    />
                                     <button
                                         className="absolute top-2 right-2 text-white bg-red-500 p-2 rounded-full"
                                         onClick={() => handleRemoveImage(story._id, image)}
@@ -107,13 +125,15 @@ const ManageStories = () => {
                             ))}
                         </div>
 
+
                         <div className="mt-4">
                             <button
                                 className="bg-indigo-600 text-white px-4 py-2 rounded-md mr-2"
-                                onClick={() => handleEdit(story._id)}
+                                onClick={() => handleEdit(story)}
                             >
                                 Edit
                             </button>
+
                             <button
                                 className="bg-red-600 text-white px-4 py-2 rounded-md"
                                 onClick={() => handleDelete(story._id)}

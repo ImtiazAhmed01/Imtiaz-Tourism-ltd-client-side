@@ -86,9 +86,9 @@ const TourismAndTravelGuide = () => {
                                     <p><strong>Rating:</strong> {guide.rating} ⭐</p>
                                     <p><strong>Availability:</strong> {guide.availability}</p>
                                     <button
-                                        // onClick={() => navigate(/packages/${pkg._id})}
+                                        onClick={() => navigate(`/guideProfile/${guide._id}`)}
                                         className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded-lg hover:bg-[#3F0113] hover:text-[#FFA500] transition"
-                                    >Book Now
+                                    >Details
                                     </button>
                                 </div>
                             ))}

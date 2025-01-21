@@ -55,7 +55,7 @@ const SideBar = () => {
 
 
     return (
-        < div style={dashboardContainerStyle} >
+        < div style={dashboardContainerStyle} className='h-72'>
             {/* Sidebar */}
             < aside style={sidebarStyle} >
                 <ul style={sidebarMenuStyle}>

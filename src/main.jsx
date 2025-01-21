@@ -25,6 +25,8 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import AddStories from './Component/Tourist/AddStories'
 import ManageStories from './Component/Tourist/ManageStories'
+import StoryEdit from './Component/Tourist/StoryEdit'
+import GuideProfile from './Component/TourGuide/GuideProfile'
 
 const stripePromise = loadStripe('pk_test_51QjKgaAwC1fImaEQKbRyeHqq3iw3ufeIP1FU4awqUbJeavujVfjrOmIsnFtx5Rb98KteM18htlYTO4caZztCMqkA00G1ifOgo6');
 
@@ -48,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/packages/:id",
         element: <PackageDetails></PackageDetails>
+      },
+      {
+        path: '/guideProfile/:id',
+        element: <GuideProfile></GuideProfile>
       },
       {
         path: '/alltirpspages',
@@ -97,6 +103,10 @@ const router = createBrowserRouter([
       {
         path: '/manage-stories',
         element: <ManageStories></ManageStories>
+      },
+      {
+        path: '/edit-story/:id',
+        element: <StoryEdit></StoryEdit>
       },
       {
         path: "dashboard/tourguide",
