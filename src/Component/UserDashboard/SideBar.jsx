@@ -1,7 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../Provider/authProvider';
 
 const SideBar = () => {
+    const { user } = useContext(AuthContext); // Get user from context
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            if (user?.email) {
+                try {
+                    const response = await fetch(`http://localhost:5000/users/role?email=${user.email}`, {
+                        headers: { 'Authorization': `Bearer ${user.token}` },
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        setUserRole(data.role);
+                    } else {
+                        console.error('Failed to fetch user role:', data.message);
+                    }
+                } catch (error) {
+                    console.error('Error fetching user role:', error);
+                }
+            }
+        };
+        fetchUserRole();
+    }, [user]);
+
+
+    if (!userRole) {
+        return <p>Loading...</p>;
+    }
 
     const sidebarStyle = {
         width: '250px',
@@ -42,22 +71,14 @@ const SideBar = () => {
         borderColor: '#007bff',
     };
 
-    // const mainContentStyle = {
-    //     flexGrow: 1,
-    //     padding: '20px',
-    //     backgroundColor: '#f1f3f4',
-    //     height: '100vh',
-    // };
-
     const dashboardContainerStyle = {
         display: 'flex',
     };
 
-
     return (
-        < div style={dashboardContainerStyle} className='h-72'>
+        <div style={dashboardContainerStyle} className="h-72">
             {/* Sidebar */}
-            < aside style={sidebarStyle} >
+            <aside style={sidebarStyle}>
                 <ul style={sidebarMenuStyle}>
                     <li style={sidebarItemStyle}>
                         <NavLink
@@ -66,43 +87,106 @@ const SideBar = () => {
                         >
                             Manage Profile
                         </NavLink>
+                    </li>
 
-                    </li>
-                    <li style={sidebarItemStyle}>
-                        <NavLink
-                            to="/dashboard/tourist/myBookings"
-                            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                        >
-                            My Bookings
-                        </NavLink>
-                    </li>
-                    <li style={sidebarItemStyle}>
-                        <NavLink
-                            to="/manage-stories"
-                            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                        >
-                            Manage Stories
-                        </NavLink>
-                    </li>
-                    <li style={sidebarItemStyle}>
-                        <NavLink
-                            to="/addstories"
-                            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                        >
-                            Add Stories
-                        </NavLink>
-                    </li>
-                    <li style={sidebarItemStyle}>
-                        <NavLink
-                            to="/dashboard/tourist/joinguide"
-                            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                        >
-                            Join as Tour Guide
-                        </NavLink>
-                    </li>
+                    {userRole === 'Tourist' && (
+                        <>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/dashboard/tourist/myBookings"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    My Bookings
+                                </NavLink>
+                            </li>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/addstories"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    Add Stories
+                                </NavLink>
+                            </li>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/manage-stories"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    Manage Stories
+                                </NavLink>
+                            </li>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/dashboard/tourist/joinguide"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    Join as Tour Guide
+                                </NavLink>
+                            </li>
+
+                        </>
+                    )}
+
+                    {userRole === 'Tour guide' && (
+                        <>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/dashboard/tourguide/assignedtour"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    My Assigned Tours
+                                </NavLink>
+                            </li>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/addstories"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    Add Stories
+                                </NavLink>
+                            </li>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/manage-stories"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    Manage Stories
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
+
+                    {userRole === 'Admin' && (
+                        <>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/dashboard/admin/addpackage"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    Add Package
+                                </NavLink>
+                            </li>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/dashboard/admin/manageusers"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    Manage Users
+                                </NavLink>
+                            </li>
+                            <li style={sidebarItemStyle}>
+                                <NavLink
+                                    to="/dashboard/admin/managecandidate"
+                                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                                >
+                                    Manage Candidates
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
                 </ul>
-            </aside >
-        </div >
+            </aside>
+        </div>
     );
 };
 

@@ -8,10 +8,10 @@ const Layout2 = () => {
         <div>
             <Navbar></Navbar>
             <div className='flex'>
-                <div className='w-'>
+                <div className='w-1/5'>
                     <SideBar></SideBar>
                 </div>
-                <div className='ml-10'>
+                <div className='ml-10 w-4/5'>
                     <Outlet></Outlet>
                 </div>
             </div>

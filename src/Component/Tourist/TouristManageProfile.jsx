@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../Provider/authProvider';
+import AdminState from '../Admin/AdminState';
 
 const TouristManageProfile = () => {
     const { user } = useContext(AuthContext);
@@ -67,7 +68,7 @@ const TouristManageProfile = () => {
         <div className="p-6">
             <div className="text-center font-sans">
                 <h1 className="text-2xl text-gray-700 mb-8 animate-slide-in">
-                    Welcome to the Tourist Guide,{' '}
+                    Welcome to the Imtiaz Tourism Ltd ,{' '}
                     <span className="font-semibold">{userData ? userData.fullName : 'Loading...'}</span>!
                 </h1>
 
@@ -100,11 +101,16 @@ const TouristManageProfile = () => {
                     >
                         Edit Profile
                     </button>
-                    <button className="btn btn-success" onClick={() => Navigate('/dashboard/tourist/joinguide')}>
-                        Apply For Tour Guide
-                    </button>
+                    {userData?.userRole !== 'Admin' && userData?.userRole !== 'Tour guide' && (
+                        <button className="btn btn-success" onClick={() => Navigate('/dashboard/tourist/joinguide')}>
+                            Apply For Tour Guide
+                        </button>
+                    )}
                 </div>
             </div>
+            {userData?.userRole !== 'Tourist' && userData?.userRole !== 'Tour guide' && (
+                <AdminState></AdminState>
+            )}
 
             {isEditModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -128,6 +134,26 @@ const TouristManageProfile = () => {
                                     name="lastName"
                                     value={editedUser.lastName || userData?.lastName || ''}
                                     onChange={handleEditChange}
+                                    className="input input-bordered w-full"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-medium mb-1">Rols</label>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    value={userData?.userRole}
+                                    readOnly
+                                    className="input input-bordered w-full"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-medium mb-1">Your Email</label>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    value={userData?.email}
+                                    readOnly
                                     className="input input-bordered w-full"
                                 />
                             </div>
@@ -161,6 +187,8 @@ const TouristManageProfile = () => {
                     </div>
                 </div>
             )}
+
+
         </div>
     );
 };

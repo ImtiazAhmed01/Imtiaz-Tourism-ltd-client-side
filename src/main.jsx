@@ -27,6 +27,11 @@ import AddStories from './Component/Tourist/AddStories'
 import ManageStories from './Component/Tourist/ManageStories'
 import StoryEdit from './Component/Tourist/StoryEdit'
 import GuideProfile from './Component/TourGuide/GuideProfile'
+import AddPackage from './Component/Admin/AddPackage'
+import ManageUsers from './Component/Admin/ManageUsers'
+import ManageCandidate from './Component/Admin/ManageCandidate'
+import MyAssignedTours from './Component/Tour Guide/MyAssignedTours'
+import StoriesTG from './Component/Tour Guide/StoriesTG'
 
 const stripePromise = loadStripe('pk_test_51QjKgaAwC1fImaEQKbRyeHqq3iw3ufeIP1FU4awqUbJeavujVfjrOmIsnFtx5Rb98KteM18htlYTO4caZztCMqkA00G1ifOgo6');
 
@@ -113,8 +118,28 @@ const router = createBrowserRouter([
         element: <ProtectedRoute allowedRoles={['Tour Guide']}><TourGuideDashboard></TourGuideDashboard></ProtectedRoute>
       },
       {
+        path: "dashboard/tourguide/assignedtour",
+        element: <MyAssignedTours></MyAssignedTours>
+      },
+      {
+        path: 'dashboard/tourguide/stories',
+        element: <StoriesTG></StoriesTG>
+      },
+      {
         path: "dashboard/admin",
         element: <ProtectedRoute allowedRoles={['Admin']}><AdminDashboard></AdminDashboard></ProtectedRoute>
+      },
+      {
+        path: 'dashboard/admin/addpackage',
+        element: <AddPackage></AddPackage>
+      },
+      {
+        path: 'dashboard/admin/manageusers',
+        element: <ManageUsers></ManageUsers>
+      },
+      {
+        path: 'dashboard/admin/managecandidate',
+        element: <ManageCandidate></ManageCandidate>
       }
     ]
 

@@ -2,8 +2,8 @@ import React from 'react';
 
 const AdminDashboard = () => {
     return (
-        <div>
-            <h1>this is admin dashboad</h1>
+        <div className='mx-auto'>
+            <h1 className='text-5xl'>WELCOME to your dashboard, ADMIN </h1>
         </div>
     );
 };
