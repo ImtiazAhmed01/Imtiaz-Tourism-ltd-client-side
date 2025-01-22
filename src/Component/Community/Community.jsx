@@ -12,7 +12,7 @@ const Community = ({ isLoggedIn }) => {
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const response = await fetch('http://localhost:5000/stories/all');
+                const response = await fetch('https://imtiaztourismltdd.vercel.app/stories/all');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

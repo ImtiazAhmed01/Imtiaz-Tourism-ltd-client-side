@@ -9,7 +9,7 @@ const GuideProfile = () => {
 
     useEffect(() => {
         // Fetch guide details from your API
-        fetch(`http://localhost:5000/tourguides/${id}`)
+        fetch(`https://imtiaztourismltdd.vercel.app/tourguides/${id}`)
             .then((response) => response.json())
             .then((data) => {
                 console.log('Fetched guide data:', data);
@@ -19,7 +19,7 @@ const GuideProfile = () => {
 
         // Fetch stories added by the guide using email
         if (guide && guide.email) {
-            fetch(`http://localhost:5000/stories/guide?email=${guide.email}`)
+            fetch(`https://imtiaztourismltdd.vercel.app/stories/guide?email=${guide.email}`)
                 .then((response) => response.json())
                 .then((data) => {
                     console.log('Fetched stories:', data);

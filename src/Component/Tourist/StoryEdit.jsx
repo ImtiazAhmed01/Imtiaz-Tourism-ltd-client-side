@@ -12,7 +12,7 @@ const StoryEdit = () => {
     useEffect(() => {
         if (!location.state?.story && storyId) {
             console.log('Fetching story by ID:', storyId);
-            fetch(`http://localhost:5000/stories/${storyId}`)
+            fetch(`https://imtiaztourismltdd.vercel.app/stories/${storyId}`)
                 .then((response) => {
                     console.log('Fetch response status:', response.status); // Log response status
                     return response.json();
@@ -39,7 +39,7 @@ const StoryEdit = () => {
         e.preventDefault();
         try {
             console.log('Updating story with:', story);
-            const response = await fetch(`http://localhost:5000/stories/${story._id}`, {
+            const response = await fetch(`https://imtiaztourismltdd.vercel.app/stories/${story._id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(story),

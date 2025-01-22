@@ -94,7 +94,7 @@ const AuthProvider = ({ children }) => {
             const user = response.user;
 
             // Fetch JWT from backend
-            const tokenResponse = await fetch('http://localhost:5000/jwt', {
+            const tokenResponse = await fetch('https://imtiaztourismltdd.vercel.app/jwt', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ const AuthProvider = ({ children }) => {
             const user = result.user;
 
             // Fetch JWT from backend
-            const tokenResponse = await fetch('http://localhost:5000/jwt', {
+            const tokenResponse = await fetch('https://imtiaztourismltdd.vercel.app/jwt', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ const AuthProvider = ({ children }) => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             try {
-                const response = await fetch(`http://localhost:5000/register/${user.uid}`);
+                const response = await fetch(`https://imtiaztourismltdd.vercel.app/register/${user.uid}`);
                 const userDetails = await response.json();
                 setUser({ ...user, ...userDetails });
             } catch (error) {

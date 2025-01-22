@@ -183,7 +183,7 @@ const Navbar = () => {
 
     useEffect(() => {
         if (user) {
-            fetch(`http://localhost:5000/users/role?email=${user.email}`)
+            fetch(`https://imtiaztourismltdd.vercel.app/users/role?email=${user.email}`)
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data.role);

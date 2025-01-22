@@ -10,7 +10,7 @@ const MyBooking = () => {
     useEffect(() => {
         if (!user?.email) return;
 
-        fetch(`http://localhost:5000/bookings?email=${user.email}`)
+        fetch(`https://imtiaztourismltdd.vercel.app/bookings?email=${user.email}`)
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {
@@ -26,7 +26,7 @@ const MyBooking = () => {
 
     const handleCancel = async (bookingId) => {
         try {
-            const response = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
+            const response = await fetch(`https://imtiaztourismltdd.vercel.app/bookings/${bookingId}`, {
                 method: 'DELETE', // Use DELETE method
                 headers: { 'Content-Type': 'application/json' },
             });

@@ -7,7 +7,7 @@ const AllTripsPage = () => {
 
     useEffect(() => {
         // Fetch all packages from the backend
-        fetch('http://localhost:5000/ourpackages/allpackages')
+        fetch('https://imtiaztourismltdd.vercel.app/ourpackages/allpackages')
             .then((res) => res.json())
             .then((data) => setPackages(data))
             .catch((error) => console.error("Error fetching packages:", error));

@@ -13,7 +13,7 @@ const ManageStories = () => {
     const fetchStories = async () => {
         try {
             console.log('Fetching stories for email:', user?.email);
-            const response = await fetch(`http://localhost:5000/stories?email=${user?.email}`, {
+            const response = await fetch(`https://imtiaztourismltdd.vercel.app/stories?email=${user?.email}`, {
                 method: 'GET',
             });
 
@@ -51,7 +51,7 @@ const ManageStories = () => {
 
     const handleDelete = async (storyId) => {
         try {
-            const response = await fetch(`http://localhost:5000/stories/${storyId}`, {
+            const response = await fetch(`https://imtiaztourismltdd.vercel.app/stories/${storyId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${user?.token}`,
@@ -73,7 +73,7 @@ const ManageStories = () => {
     // Remove image from story
     const handleRemoveImage = async (storyId, imagePath) => {
         try {
-            const response = await fetch(`http://localhost:5000/stories/remove-image`, {
+            const response = await fetch(`https://imtiaztourismltdd.vercel.app/stories/remove-image`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${user?.token}`,

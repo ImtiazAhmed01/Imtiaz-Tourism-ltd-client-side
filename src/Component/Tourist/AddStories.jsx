@@ -49,7 +49,7 @@ const AddStories = () => {
         console.log('Story Data:', storyData);
 
         try {
-            const response = await fetch('http://localhost:5000/stories/add', {
+            const response = await fetch('https://imtiaztourismltdd.vercel.app/stories/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

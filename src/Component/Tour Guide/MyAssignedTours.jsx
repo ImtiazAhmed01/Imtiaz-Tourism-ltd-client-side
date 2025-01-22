@@ -16,7 +16,7 @@ const MyAssignedTours = () => {
 
             console.log("Fetching tours for guide:", user.displayName); // Debug log
 
-            const response = await axios.get("http://localhost:5000/bookings/byguide", {
+            const response = await axios.get("https://imtiaztourismltdd.vercel.app/bookings/byguide", {
                 params: { guideName: user.displayName }, // Use `user.displayName`
             });
 
@@ -41,7 +41,7 @@ const MyAssignedTours = () => {
     // Handle status change
     const handleStatusChange = async (packageId, status) => {
         try {
-            const response = await axios.patch(`http://localhost:5000/bookings/${packageId}`, { status });
+            const response = await axios.patch(`https://imtiaztourismltdd.vercel.app/bookings/${packageId}`, { status });
             if (response.status === 200) {
                 Swal.fire({
                     icon: "success",

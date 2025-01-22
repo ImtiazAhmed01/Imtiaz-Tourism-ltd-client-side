@@ -19,7 +19,7 @@ const Payment = () => {
 
         try {
             // Fetch the payment intent client secret
-            const response = await fetch('http://localhost:5000/create-payment-intent', {
+            const response = await fetch('https://imtiaztourismltdd.vercel.app/create-payment-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount: 5000, bookingId: id }),
@@ -43,7 +43,7 @@ const Payment = () => {
                 setPaymentStatus('Payment Successful');
 
                 // Update booking status
-                await fetch(`http://localhost:5000/bookings/${id}`, {
+                await fetch(`https://imtiaztourismltdd.vercel.app/bookings/${id}`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ status: 'In Review' }),
