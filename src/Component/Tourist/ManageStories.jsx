@@ -9,25 +9,25 @@ const ManageStories = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // Fetch user's stories when the component is mounted
+
     const fetchStories = async () => {
         try {
-            console.log('Fetching stories for email:', user?.email); // Log user email
+            console.log('Fetching stories for email:', user?.email);
             const response = await fetch(`http://localhost:5000/stories?email=${user?.email}`, {
                 method: 'GET',
             });
 
-            console.log('Fetch response status:', response.status); // Log response status
+            console.log('Fetch response status:', response.status);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Fetched stories:', data.stories); // Log fetched stories
+                console.log('Fetched stories:', data.stories);
                 setStories(data.stories || []);
             } else {
-                console.error('Failed to fetch stories, status:', response.status); // Log failure details
+                console.error('Failed to fetch stories, status:', response.status);
                 toast.error('Failed to fetch stories');
             }
         } catch (error) {
-            console.error('Error fetching stories:', error); // Log any error
+            console.error('Error fetching stories:', error);
             toast.error('Error fetching stories');
         }
     };

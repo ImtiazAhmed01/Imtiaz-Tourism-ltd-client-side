@@ -3,7 +3,8 @@ import axios from 'axios';
 import Select from 'react-select';
 
 const ManageUsers = () => {
-    const [users, setUsers] = useState([]);
+    const [combinedData, setCombinedData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [search, setSearch] = useState('');
     const [role, setRole] = useState(null);
 
@@ -13,25 +14,51 @@ const ManageUsers = () => {
     ];
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            const params = {};
-            if (search) params.search = search;
-            if (role) params.role = role?.value;
-
-            console.log('Params being sent to backend:', params);
-
+        const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/users/all', { params });
-                console.log('Response from server:', response.data);
-                setUsers(Array.isArray(response.data) ? response.data : []);
+                const [usersResponse, tourGuidesResponse] = await Promise.all([
+                    axios.get('http://localhost:5000/users/all'),
+                    axios.get('http://localhost:5000/tourguides/all'),
+                ]);
+
+                console.log('Users data:', usersResponse.data);
+                console.log('Tour Guides data:', tourGuidesResponse.data);
+
+                const combined = [
+                    ...(Array.isArray(usersResponse.data) ? usersResponse.data : []).map((user) => ({
+                        ...user,
+                        fullName: user.fullName || user.name,
+                    })),
+                    ...(Array.isArray(tourGuidesResponse.data) ? tourGuidesResponse.data : []).map((guide) => ({
+                        ...guide,
+                        fullName: guide.fullName || guide.name,
+                    })),
+                ];
+
+                setCombinedData(combined);
+                setFilteredData(combined);
             } catch (error) {
-                console.error('Error fetching users:', error.message);
-                setUsers([]);
+                console.error('Error fetching data:', error.message);
+                setCombinedData([]);
+                setFilteredData([]);
             }
         };
 
-        fetchUsers();
-    }, [search, role]);
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const filtered = combinedData.filter((item) => {
+            const matchesSearch =
+                !search ||
+                item.fullName.toLowerCase().includes(search.toLowerCase()) ||
+                item.email.toLowerCase().includes(search.toLowerCase());
+            const matchesRole = !role || item.userRole === role.value;
+            return matchesSearch && matchesRole;
+        });
+
+        setFilteredData(filtered);
+    }, [search, role, combinedData]);
 
     return (
         <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
@@ -42,10 +69,7 @@ const ManageUsers = () => {
                     type="text"
                     placeholder="Search by name or email"
                     value={search}
-                    onChange={(e) => {
-                        console.log('Search input updated:', e.target.value);
-                        setSearch(e.target.value);
-                    }}
+                    onChange={(e) => setSearch(e.target.value)}
                     style={{
                         padding: '10px',
                         border: '1px solid #ccc',
@@ -56,10 +80,7 @@ const ManageUsers = () => {
                 <Select
                     options={roles}
                     value={role}
-                    onChange={(selectedRole) => {
-                        console.log('Role selected:', selectedRole);
-                        setRole(selectedRole);
-                    }}
+                    onChange={(selectedRole) => setRole(selectedRole)}
                     placeholder="Filter by role"
                     isClearable
                     styles={{
@@ -76,6 +97,7 @@ const ManageUsers = () => {
                     width: '100%',
                     borderCollapse: 'collapse',
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '20px',
                 }}
             >
                 <thead>
@@ -87,19 +109,19 @@ const ManageUsers = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {Array.isArray(users) && users.length > 0 ? (
-                        users.map((user, index) => (
+                    {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                        filteredData.map((item, index) => (
                             <tr
-                                key={user._id}
+                                key={item._id}
                                 style={{
                                     backgroundColor: index % 2 === 0 ? '#f9f9f9' : 'white',
                                     textAlign: 'center',
                                 }}
                             >
                                 <td style={cellStyle}>{index + 1}</td>
-                                <td style={cellStyle}>{user.fullName}</td>
-                                <td style={cellStyle}>{user.email}</td>
-                                <td style={cellStyle}>{user.userRole}</td>
+                                <td style={cellStyle}>{item.fullName}</td>
+                                <td style={cellStyle}>{item.email}</td>
+                                <td style={cellStyle}>{item.userRole}</td>
                             </tr>
                         ))
                     ) : (
@@ -115,7 +137,6 @@ const ManageUsers = () => {
     );
 };
 
-// Styles for the table headers and cells
 const headerStyle = {
     padding: '10px',
     textAlign: 'center',
