@@ -15,7 +15,6 @@ const TouristStorySection = ({ isLoggedIn }) => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                // Randomize and select 4 stories
                 const randomStories = data.sort(() => Math.random() - 0.5).slice(0, 4);
                 setStories(randomStories);
             } catch (error) {
@@ -36,15 +35,16 @@ const TouristStorySection = ({ isLoggedIn }) => {
 
     return (
         <div className="tourist-story-section p-6">
-            <h2 className="text-2xl font-bold mb-4">Tourist Stories</h2>
+            <h2 className="text-2xl font-bold mb-4 text-center">Tourist Stories</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stories.map((story) => (
                     <div key={story.id} className="story-card bg-white rounded shadow p-4">
                         <img
-                            src={story.image}
-                            alt={story.title}
+                            src={Array.isArray(story.images) && story.images.length > 0 ? story.images[0] : story.images}
+                            alt={Array.isArray(story.images) ? story.images.join(', ') : story.title}
                             className="w-full h-48 object-cover rounded mb-4"
                         />
+
                         <div className='flex'>
                             <div className='w-1/3'>
                                 <img
@@ -82,13 +82,13 @@ const TouristStorySection = ({ isLoggedIn }) => {
             <div className="flex justify-center mt-6 space-x-4">
                 <button
                     className="bg-gray-800 text-white px-6 py-2 rounded hover:bg-gray-900"
-                    onClick={() => navigate('/all-stories')}
+                    onClick={() => navigate('/community')}
                 >
                     All Stories
                 </button>
                 <button
                     className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600"
-                    onClick={() => navigate('/add-stories')}
+                    onClick={() => navigate('/addstories')}
                 >
                     Add Stories
                 </button>

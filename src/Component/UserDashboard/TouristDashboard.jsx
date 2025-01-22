@@ -53,7 +53,7 @@ const TouristDashboard = () => {
         <div>
             {/* Main Content  style={mainContentStyle}*/}
             <main >
-                <h1 className='text-6xl'>tourist dashboard</h1>
+                <h1 className='text-6xl'>Welcome to your tourist dashboard</h1>
             </main>
         </div>
     );

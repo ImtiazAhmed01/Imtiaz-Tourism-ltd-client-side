@@ -23,10 +23,29 @@ const ManageCandidate = () => {
 
     const handleAction = async (applicationId, action) => {
         try {
-            const response = await axios.post('http://localhost:5000/manageApplication', {
-                applicationId,
-                action,
-            });
+            let payload = { applicationId, action };
+
+            if (action === 'accept') {
+                const selectedApp = applications.find((app) => app._id === applicationId);
+                payload = {
+                    ...payload,
+                    guideDetails: {
+                        name: selectedApp.name,
+                        age: selectedApp.age,
+                        gender: selectedApp.gender,
+                        languages: selectedApp.languages,
+                        experience: selectedApp.experience,
+                        speciality: selectedApp.speciality,
+                        rating: 0,
+                        availability: "Available",
+                        img: selectedApp.img, // Ensure img is available in the application object
+                        email: selectedApp.email,
+                        userRole: "Tour guide",
+                    },
+                };
+            }
+
+            const response = await axios.post('http://localhost:5000/manageApplication', payload);
 
             if (response.status === 200) {
                 Swal.fire({
@@ -35,7 +54,11 @@ const ManageCandidate = () => {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                fetchApplications(); // Refresh the table after action
+
+                // Update the applications state to reflect changes
+                setApplications((prevApplications) =>
+                    prevApplications.filter((app) => app._id !== applicationId)
+                );
             }
         } catch (error) {
             console.error(`Error performing ${action} action:`, error.message);
@@ -47,6 +70,9 @@ const ManageCandidate = () => {
         }
     };
 
+
+
+
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold text-center mb-6">Manage Candidates</h1>
@@ -56,7 +82,9 @@ const ManageCandidate = () => {
                         <tr>
                             <th className="border border-gray-300 px-4 py-2">Name</th>
                             <th className="border border-gray-300 px-4 py-2">Email</th>
+                            <th className="border border-gray-300 px-4 py-2">Role</th>
                             <th className="border border-gray-300 px-4 py-2">Actions</th>
+                            <th className="border border-gray-300 px-4 py-2">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,6 +100,7 @@ const ManageCandidate = () => {
                                     {application.name}
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">{application.email}</td>
+                                <td className="border border-gray-300 px-4 py-2">{application.userRole}</td>
                                 <td className="border border-gray-300 px-4 py-2">
                                     <button
                                         className="btn btn-success mr-2"
@@ -86,9 +115,13 @@ const ManageCandidate = () => {
                                         Reject
                                     </button>
                                 </td>
+                                <td className="border border-gray-300 px-4 py-2">
+                                    {application.status || 'Pending'}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
+
                 </table>
             </div>
 

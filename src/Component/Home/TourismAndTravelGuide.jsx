@@ -80,7 +80,7 @@ const TourismAndTravelGuide = () => {
                                     <h3 className="text-xl font-bold mt-4">{guide.name}</h3>
                                     <p><strong>Age:</strong> {guide.age}</p>
                                     <p><strong>Gender:</strong> {guide.gender}</p>
-                                    <p><strong>Languages:</strong> {guide.language.join(', ')}</p>
+                                    <p><strong>Languages:</strong> {guide.language?.join(', ') || 'Not specified'}</p>
                                     <p><strong>Experience:</strong> {guide.experience}</p>
                                     <p><strong>Specialty:</strong> {guide.specialty}</p>
                                     <p><strong>Rating:</strong> {guide.rating} ⭐</p>
@@ -94,6 +94,7 @@ const TourismAndTravelGuide = () => {
                             ))}
                         </div>
                     </TabPanel>
+
                 </Tabs>
             </div>
         </section>

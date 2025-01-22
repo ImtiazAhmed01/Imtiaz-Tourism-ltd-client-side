@@ -259,7 +259,7 @@ const Navbar = () => {
         switch (userRole) {
             case "Tourist":
                 return "/dashboard/tourist";
-            case "Tour Guide":
+            case "Tour guide":
                 return "/dashboard/tourguide";
             case "Admin":
                 return "/dashboard/admin";

@@ -1,46 +1,65 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-
-
-// Replace with your actual Stripe public key
 
 const Payment = () => {
     const { id } = useParams(); // Get the booking ID from the URL params
     const stripe = useStripe();
     const elements = useElements();
+    const navigate = useNavigate();
     const [paymentStatus, setPaymentStatus] = useState('');
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!stripe || !elements) return;
 
         const card = elements.getElement(CardElement);
-        const response = await fetch('http://localhost:5000/create-payment-intent', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ amount: 5000 }), // Example: $50 = 5000 cents
-        });
-        const { clientSecret } = await response.json();
 
-        // Confirm the payment
-        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: { card },
-        });
-
-        if (error) {
-            console.error(error.message);
-            setPaymentStatus('Payment Failed');
-        } else if (paymentIntent.status === 'succeeded') {
-            setPaymentStatus('Payment Successful');
-
-            await fetch(`http://localhost:5000/bookings/${id}`, {
-                method: 'PATCH',
+        try {
+            // Fetch the payment intent client secret
+            const response = await fetch('http://localhost:5000/create-payment-intent', {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'In Review' }),
+                body: JSON.stringify({ amount: 5000, bookingId: id }),
             });
+
+            const data = await response.json();
+
+            if (!data.clientSecret) {
+                throw new Error('Missing clientSecret from the server');
+            }
+
+            // Confirm the payment
+            const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
+                payment_method: { card },
+            });
+
+            if (error) {
+                console.error(error.message);
+                setPaymentStatus('Payment Failed');
+            } else if (paymentIntent.status === 'succeeded') {
+                setPaymentStatus('Payment Successful');
+
+                // Update booking status
+                await fetch(`http://localhost:5000/bookings/${id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: 'In Review' }),
+                });
+
+                // Redirect to my bookings
+                setTimeout(() => {
+                    navigate('/dashboard/tourist/myBookings');
+                }, 2000);
+            }
+        } catch (err) {
+            console.error('Error processing payment:', err);
+            setPaymentStatus('Payment Failed');
         }
     };
+
 
     return (
         <div className="p-6">
@@ -49,10 +68,10 @@ const Payment = () => {
                 <CardElement className="p-4 border rounded-md" />
                 <button
                     type="submit"
-                    disabled={!stripe}
+                    disabled={!stripe || isProcessing}
                     className="btn btn-primary mt-4"
                 >
-                    Pay Now
+                    {isProcessing ? 'Processing...' : 'Pay Now'}
                 </button>
             </form>
             {paymentStatus && <p className="mt-4">{paymentStatus}</p>}

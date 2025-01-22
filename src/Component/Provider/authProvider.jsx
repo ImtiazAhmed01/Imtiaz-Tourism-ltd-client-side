@@ -69,6 +69,8 @@ const AuthProvider = ({ children }) => {
     };
 
 
+
+
     const signOutUser = async () => {
         try {
             await signOut(auth);
@@ -86,58 +88,84 @@ const AuthProvider = ({ children }) => {
     };
 
 
-    const signInWithGoogle = async () => {
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const user = result.user;
-
-            const token = await user.getIdToken();
-
-            const userData = {
-                email: user.email,
-                displayName: user.displayName || "Tourist",
-                photoURL: user.photoURL,
-                role: "tourist",
-            };
-
-            localStorage.setItem("authToken", token);
-            localStorage.setItem("userProfile", JSON.stringify(userData));
-
-            setUser(userData);
-            return user;
-        } catch (error) {
-            console.error("Google Sign-In error:", error.message);
-            throw error;
-        }
-    };
-
-
-
-
-
     const signInUser = async (email, password) => {
         try {
             const response = await signInWithEmailAndPassword(auth, email, password);
             const user = response.user;
 
-            const token = await user.getIdToken();
+            // Fetch JWT from backend
+            const tokenResponse = await fetch('http://localhost:5000/jwt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ uid: user.uid, email: user.email }),
+            });
+
+            if (!tokenResponse.ok) {
+                throw new Error('Failed to fetch JWT token');
+            }
+
+            const { token } = await tokenResponse.json();
+
+            // Store JWT and user profile in local storage
             const userData = {
                 email: user.email,
-                displayName: user.displayName || "Tourist",
+                displayName: user.displayName || 'Tourist',
                 photoURL: user.photoURL,
-                role: "tourist",
+                role: 'tourist',
             };
 
-            localStorage.setItem("authToken", token);
-            localStorage.setItem("userProfile", JSON.stringify(userData));
+            localStorage.setItem('authToken', token);
+            localStorage.setItem('userProfile', JSON.stringify(userData));
             setUser(userData);
 
             return response;
         } catch (error) {
-            console.error("Error logging in:", error.message);
+            console.error('Error logging in:', error.message);
             throw error;
         }
     };
+
+    const signInWithGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const user = result.user;
+
+            // Fetch JWT from backend
+            const tokenResponse = await fetch('http://localhost:5000/jwt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ uid: user.uid, email: user.email }),
+            });
+
+            if (!tokenResponse.ok) {
+                throw new Error('Failed to fetch JWT token');
+            }
+
+            const { token } = await tokenResponse.json();
+
+            // Store JWT and user profile in local storage
+            const userData = {
+                email: user.email,
+                displayName: user.displayName || 'Tourist',
+                photoURL: user.photoURL,
+                role: 'tourist',
+            };
+
+            localStorage.setItem('authToken', token);
+            localStorage.setItem('userProfile', JSON.stringify(userData));
+
+            setUser(userData);
+            return user;
+        } catch (error) {
+            console.error('Google Sign-In error:', error.message);
+            throw error;
+        }
+    };
+
 
     // Send forgot password email
     const sendForgotPasswordEmail = async (email) => {
@@ -149,6 +177,37 @@ const AuthProvider = ({ children }) => {
             throw error;
         }
     };
+    const handleForgotPassword = async () => {
+        if (!email) {
+            toast.error('Please enter your email address to reset your password.', {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+            return;
+        }
+
+        try {
+            await sendForgotPasswordEmail(email);  // Use sendForgotPasswordEmail from context
+            toast.success('Password reset email sent successfully! Check your inbox.', {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+        } catch (error) {
+            console.error("Password reset failed:", error.message);
+            toast.error('Failed to send password reset email. Please try again.', {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+        }
+    };
+
+
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -198,6 +257,7 @@ const AuthProvider = ({ children }) => {
                 updateUserProfile,
                 sendForgotPasswordEmail,
                 isAuthenticated,
+                handleForgotPassword
 
             }}
         >

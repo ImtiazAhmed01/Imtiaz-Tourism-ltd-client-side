@@ -227,7 +227,7 @@ const Register = () => {
                         <input
                             type={showPassword ? "text" : "password"}
                             name="password"
-                            placeholder="Enter your password"
+                            placeholder="Length must be 6, contain 1 upperclass, 1 lowerclass alphabet"
                             className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                             required
                         />

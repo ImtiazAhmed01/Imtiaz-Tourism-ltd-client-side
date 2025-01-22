@@ -14,6 +14,7 @@ const JoinAsTourGuide = () => {
         name: "",
         email: "",
         image: "",
+        userRole: "",
         age: "",
         experience: "",
         languages: [""],
@@ -82,6 +83,7 @@ const JoinAsTourGuide = () => {
                         name: data.fullName || "",
                         email: data.email || "",
                         image: data.photoURL || "",
+                        userRole: data.userRole || "",
                     }));
                 } catch (error) {
                     console.error("Error fetching user data:", error.message);
@@ -99,6 +101,7 @@ const JoinAsTourGuide = () => {
                 !applicationData.cvLink ||
                 !additionalData.name ||
                 !additionalData.email ||
+                !additionalData.userRole ||
                 !additionalData.age ||
                 !additionalData.speciality ||
                 !additionalData.gender
@@ -128,6 +131,7 @@ const JoinAsTourGuide = () => {
                 name: "",
                 email: "",
                 image: "",
+                userRol: "",
                 age: "",
                 experience: "",
                 languages: [""],
@@ -236,6 +240,15 @@ const JoinAsTourGuide = () => {
                                 type="email"
                                 name="email"
                                 value={additionalData.email}
+                                onChange={handleAdditionalDataChange}
+                                placeholder="Email"
+                                className="input input-bordered w-full"
+                                required
+                            />
+                            <input
+                                type="email"
+                                name="email"
+                                value={additionalData.userRole}
                                 onChange={handleAdditionalDataChange}
                                 placeholder="Email"
                                 className="input input-bordered w-full"

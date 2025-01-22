@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 const Community = ({ isLoggedIn }) => {
     const [stories, setStories] = useState([]);
     const navigate = useNavigate();
-    const [selectedStory, setSelectedStory] = useState(null); // For modal data
+    const [selectedStory, setSelectedStory] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const response = await fetch('http://localhost:5000/stories/all'); // Replace with your backend API URL
+                const response = await fetch('http://localhost:5000/stories/all');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -44,14 +44,14 @@ const Community = ({ isLoggedIn }) => {
 
     return (
         <div className="tourist-story-section p-6">
-            <h2 className="text-2xl font-bold mb-4">Tourist Stories</h2>
+            <h2 className="text-2xl font-bold mb-4">All Stories</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stories.map((story) => (
                     <div key={story.id || story._id} className="story-card bg-white rounded shadow p-4 cursor-pointer"
                         onClick={() => handleStoryClick(story)}>
                         <img
-                            src={story.image}
-                            alt={story.title || 'Story Image'}
+                            src={Array.isArray(story.images) && story.images.length > 0 ? story.images[0] : story.images}
+                            alt={Array.isArray(story.images) ? story.images.join(', ') : story.title}
                             className="w-full h-48 object-cover rounded mb-4"
                         />
                         <div className="flex">
@@ -102,7 +102,7 @@ const Community = ({ isLoggedIn }) => {
             <div className="flex justify-center mt-6 space-x-4">
                 <button
                     className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600"
-                    onClick={() => navigate('/add-stories')}
+                    onClick={() => navigate('/addstories')}
                 >
                     Add Stories
                 </button>
@@ -112,11 +112,26 @@ const Community = ({ isLoggedIn }) => {
             {isModalOpen && selectedStory && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded shadow-lg max-w-lg w-full">
-                        <img
-                            src={selectedStory.image}
-                            alt={selectedStory.title || 'Story Image'}
-                            className="w-full h-48 object-cover rounded mb-4"
-                        />
+                        {Array.isArray(selectedStory.images) && selectedStory.images.length > 1 ? (
+                            // Collage view for multiple images
+                            <div className="grid grid-cols-2 gap-2 mb-4">
+                                {selectedStory.images.slice(0, 4).map((img, index) => (
+                                    <img
+                                        key={index}
+                                        src={img}
+                                        alt={`Image ${index + 1}`}
+                                        className="w-full h-32 object-cover rounded"
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            // Single image view
+                            <img
+                                src={Array.isArray(selectedStory.images) && selectedStory.images.length > 0 ? selectedStory.images[0] : selectedStory.images}
+                                alt={selectedStory.title || 'Image'}
+                                className="w-full h-48 object-cover rounded mb-4"
+                            />
+                        )}
                         <h3 className="text-2xl font-bold mb-2">{selectedStory.title || 'Untitled Story'}</h3>
                         <p className="text-gray-700 mb-4">{selectedStory.text || 'No description available.'}</p>
                         <div className="flex justify-end space-x-4">
