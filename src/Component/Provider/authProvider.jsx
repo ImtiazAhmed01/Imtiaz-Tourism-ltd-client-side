@@ -69,8 +69,6 @@ const AuthProvider = ({ children }) => {
     };
 
 
-
-
     const signOutUser = async () => {
         try {
             await signOut(auth);
@@ -88,84 +86,58 @@ const AuthProvider = ({ children }) => {
     };
 
 
-    const signInUser = async (email, password) => {
-        try {
-            const response = await signInWithEmailAndPassword(auth, email, password);
-            const user = response.user;
-
-            // Fetch JWT from backend
-            const tokenResponse = await fetch('https://imtiaztourismltdd.vercel.app/jwt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ uid: user.uid, email: user.email }),
-            });
-
-            if (!tokenResponse.ok) {
-                throw new Error('Failed to fetch JWT token');
-            }
-
-            const { token } = await tokenResponse.json();
-
-            // Store JWT and user profile in local storage
-            const userData = {
-                email: user.email,
-                displayName: user.displayName || 'Tourist',
-                photoURL: user.photoURL,
-                role: 'tourist',
-            };
-
-            localStorage.setItem('authToken', token);
-            localStorage.setItem('userProfile', JSON.stringify(userData));
-            setUser(userData);
-
-            return response;
-        } catch (error) {
-            console.error('Error logging in:', error.message);
-            throw error;
-        }
-    };
-
     const signInWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
 
-            // Fetch JWT from backend
-            const tokenResponse = await fetch('https://imtiaztourismltdd.vercel.app/jwt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ uid: user.uid, email: user.email }),
-            });
+            const token = await user.getIdToken();
 
-            if (!tokenResponse.ok) {
-                throw new Error('Failed to fetch JWT token');
-            }
-
-            const { token } = await tokenResponse.json();
-
-            // Store JWT and user profile in local storage
             const userData = {
                 email: user.email,
-                displayName: user.displayName || 'Tourist',
+                displayName: user.displayName || "Tourist",
                 photoURL: user.photoURL,
-                role: 'tourist',
+                role: "tourist",
             };
 
-            localStorage.setItem('authToken', token);
-            localStorage.setItem('userProfile', JSON.stringify(userData));
+            localStorage.setItem("authToken", token);
+            localStorage.setItem("userProfile", JSON.stringify(userData));
 
             setUser(userData);
             return user;
         } catch (error) {
-            console.error('Google Sign-In error:', error.message);
+            console.error("Google Sign-In error:", error.message);
             throw error;
         }
     };
 
+
+
+
+
+    const signInUser = async (email, password) => {
+        try {
+            const response = await signInWithEmailAndPassword(auth, email, password);
+            const user = response.user;
+
+            const token = await user.getIdToken();
+            const userData = {
+                email: user.email,
+                displayName: user.displayName || "Tourist",
+                photoURL: user.photoURL,
+                role: "tourist",
+            };
+
+            localStorage.setItem("authToken", token);
+            localStorage.setItem("userProfile", JSON.stringify(userData));
+            setUser(userData);
+
+            return response;
+        } catch (error) {
+            console.error("Error logging in:", error.message);
+            throw error;
+        }
+    };
 
     // Send forgot password email
     const sendForgotPasswordEmail = async (email) => {
@@ -212,7 +184,7 @@ const AuthProvider = ({ children }) => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             try {
-                const response = await fetch(`https://imtiaztourismltdd.vercel.app/register/${user.uid}`);
+                const response = await fetch(`http://localhost:5000/register/${user.uid}`);
                 const userDetails = await response.json();
                 setUser({ ...user, ...userDetails });
             } catch (error) {
