@@ -12,7 +12,7 @@ const GuideProfile = () => {
         fetch(`https://imtiaztourismltdd.vercel.app/tourguides/${id}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log('Fetched guide data:', data);
+                // console.log('Fetched guide data:', data);
                 setGuide(data);
             })
             .catch((error) => console.error('Error fetching guide data:', error));
@@ -22,14 +22,13 @@ const GuideProfile = () => {
             fetch(`https://imtiaztourismltdd.vercel.app/stories/guide?email=${guide.email}`)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log('Fetched stories:', data);
-                    // Ensure data is an array
+                    // console.log('Fetched stories:', data);
+
                     setStories(Array.isArray(data) ? data : []);
                 })
                 .catch((error) => console.error('Error fetching stories:', error));
         }
-    }, [id, guide]); // Added guide to the dependency array to fetch stories after guide data is fetched
-
+    }, [id, guide]);
 
     if (!guide) {
         return <p>Loading guide details...</p>;
@@ -72,7 +71,7 @@ const GuideProfile = () => {
                             <div key={story._id} className="story-card bg-white rounded shadow p-4 cursor-pointer"
                                 onClick={() => handleStoryClick(story)}>
                                 <img
-                                    src={story.image}
+                                    src={story.images}
                                     alt={story.title || 'Story Image'}
                                     className="w-full h-48 object-cover rounded mb-4"
                                 />

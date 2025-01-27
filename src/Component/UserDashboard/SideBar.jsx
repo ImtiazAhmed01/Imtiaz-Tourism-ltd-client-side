@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../Provider/authProvider';
+import logo from '../../assets/icon/travel-bag.png'
 
 const SideBar = () => {
     const { user } = useContext(AuthContext); // Get user from context
@@ -79,6 +80,7 @@ const SideBar = () => {
         <div style={dashboardContainerStyle} className="h-72">
             {/* Sidebar */}
             <aside style={sidebarStyle}>
+                <img src={logo} alt="" />
                 <ul style={sidebarMenuStyle}>
                     <li style={sidebarItemStyle}>
                         <NavLink

@@ -10,10 +10,13 @@ import {
     updateProfile,
     sendPasswordResetEmail,
 } from "firebase/auth";
+import { toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
@@ -37,12 +40,28 @@ const AuthProvider = ({ children }) => {
 
             setUser(updatedUser);
             localStorage.setItem("userProfile", JSON.stringify(updatedUser));
-            return newUser;
+
+            toast.success("Account created successfully!", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+
+            navigate("/");  // Ensure you're navigating to the desired page after registration
+            return updatedUser;
         } catch (error) {
             console.error("Error creating user:", error.message);
+            toast.error("Failed to create account. Please try again.", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
             throw error;
         }
     };
+
 
 
     const updateUserProfile = async (updatedUser) => {
@@ -61,9 +80,22 @@ const AuthProvider = ({ children }) => {
 
                 setUser(updatedProfile);
                 localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+
+                toast.success("Profile updated successfully!", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    theme: "light",
+                    transition: Bounce,
+                });
             }
         } catch (error) {
             console.error("Error updating profile:", error.message);
+            toast.error("Failed to update profile. Please try again.", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
             throw error;
         }
     };
@@ -75,14 +107,22 @@ const AuthProvider = ({ children }) => {
             setUser(null);
             localStorage.removeItem("authToken");
             localStorage.removeItem("userProfile");
+
+            toast.success("Logged out successfully!", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
         } catch (error) {
             console.error("Sign-out error:", error.message);
+            toast.error("Failed to log out. Please try again.", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
         }
-    };
-
-    const isAuthenticated = () => {
-        const token = localStorage.getItem("authToken");
-        return !!token;
     };
 
 
@@ -92,7 +132,6 @@ const AuthProvider = ({ children }) => {
             const user = result.user;
 
             const token = await user.getIdToken();
-
             const userData = {
                 email: user.email,
                 displayName: user.displayName || "Tourist",
@@ -102,18 +141,27 @@ const AuthProvider = ({ children }) => {
 
             localStorage.setItem("authToken", token);
             localStorage.setItem("userProfile", JSON.stringify(userData));
-
             setUser(userData);
+
+            toast.success("Google login successful!", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+
             return user;
         } catch (error) {
             console.error("Google Sign-In error:", error.message);
+            toast.error("Google login failed. Please try again.", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
             throw error;
         }
     };
-
-
-
-
 
     const signInUser = async (email, password) => {
         try {
@@ -132,26 +180,29 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem("userProfile", JSON.stringify(userData));
             setUser(userData);
 
+            toast.success("Login successful!", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+
             return response;
         } catch (error) {
             console.error("Error logging in:", error.message);
+            toast.error("Invalid email or password. Please try again.", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
             throw error;
         }
     };
 
-    // Send forgot password email
-    const sendForgotPasswordEmail = async (email) => {
-        try {
-            await sendPasswordResetEmail(auth, email);
-            console.log("Password reset email sent successfully!");
-        } catch (error) {
-            console.error("Error sending password reset email:", error.message);
-            throw error;
-        }
-    };
-    const handleForgotPassword = async () => {
+    const handleForgotPassword = async (email) => {
         if (!email) {
-            toast.error('Please enter your email address to reset your password.', {
+            toast.error("Please provide your email address.", {
                 position: "top-center",
                 autoClose: 5000,
                 theme: "light",
@@ -161,16 +212,16 @@ const AuthProvider = ({ children }) => {
         }
 
         try {
-            await sendForgotPasswordEmail(email);  // Use sendForgotPasswordEmail from context
-            toast.success('Password reset email sent successfully! Check your inbox.', {
+            await sendPasswordResetEmail(auth, email);
+            toast.success("Password reset email sent! Check your inbox.", {
                 position: "top-center",
                 autoClose: 5000,
                 theme: "light",
                 transition: Bounce,
             });
         } catch (error) {
-            console.error("Password reset failed:", error.message);
-            toast.error('Failed to send password reset email. Please try again.', {
+            console.error("Error sending password reset email:", error.message);
+            toast.error("Failed to send password reset email. Try again later.", {
                 position: "top-center",
                 autoClose: 5000,
                 theme: "light",
@@ -179,43 +230,51 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-
-
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            try {
-                const response = await fetch(`http://localhost:5000/register/${user.uid}`);
-                const userDetails = await response.json();
-                setUser({ ...user, ...userDetails });
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-        } else {
-            setUser(null);
-        }
-    });
-
-
-    // Handle auth state change (user logged in/out)
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
-                const userData = {
-                    email: currentUser.email, // Ensure email is included
+                const localUserData = {
+                    email: currentUser.email,
                     displayName: currentUser.displayName || "Tourist",
                     photoURL: currentUser.photoURL,
-                    role: "tourist",
                 };
-                setUser(userData);
-                localStorage.setItem("userProfile", JSON.stringify(userData));
+
+                try {
+                    const response = await fetch(`/users?email=${currentUser.email}`);
+                    if (response.ok) {
+                        const apiUserData = await response.json();
+                        const combinedUserData = {
+                            ...localUserData,
+                            userName: apiUserData.userName,
+                            userRole: apiUserData.userRole,
+                        };
+                        setUser(combinedUserData);
+                        localStorage.setItem("userProfile", JSON.stringify(combinedUserData));
+                    } else {
+                        console.error("User not found in the database");
+                        setUser(localUserData);
+                        localStorage.setItem("userProfile", JSON.stringify(localUserData));
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    setUser(localUserData);
+                    localStorage.setItem("userProfile", JSON.stringify(localUserData));
+                }
             } else {
-                setUser(null);
-                localStorage.removeItem("userProfile");
+                const storedUser = localStorage.getItem("userProfile");
+                if (storedUser) {
+                    setUser(JSON.parse(storedUser));
+                } else {
+                    setUser(null);
+                }
             }
             setLoading(false);
         });
+
         return () => unsubscribe();
     }, []);
+
+
 
 
     return (
@@ -227,10 +286,7 @@ const AuthProvider = ({ children }) => {
                 signOutUser,
                 signInWithGoogle,
                 updateUserProfile,
-                sendForgotPasswordEmail,
-                isAuthenticated,
-                handleForgotPassword
-
+                handleForgotPassword,
             }}
         >
             {!loading && children}

@@ -1,4 +1,3 @@
-
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useContext, useState } from "react";
@@ -84,7 +83,7 @@ const Login = () => {
         }
 
         try {
-            await handleForgotPassword(email); // Correct usage of handleForgotPassword with the email parameter
+            await handleForgotPassword(email);
             toast.success('Password reset email sent successfully! Check your inbox.', {
                 position: "top-center",
                 autoClose: 5000,
@@ -101,7 +100,6 @@ const Login = () => {
             });
         }
     };
-
 
     const togglePasswordVisibility = () => {
         setShowPassword((prevState) => !prevState);
@@ -160,7 +158,7 @@ const Login = () => {
                             <button
                                 type="button"
                                 className="label-text-alt link link-hover"
-                                onClick={handleForgotPasswordSubmit} // Changed here
+                                onClick={handleForgotPasswordSubmit}
                             >
                                 Forgot password?
                             </button>
@@ -223,5 +221,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

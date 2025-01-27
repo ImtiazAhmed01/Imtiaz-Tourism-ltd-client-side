@@ -171,9 +171,12 @@
 // };
 
 // export default Navbar;
+
+
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/authProvider";
+import logo from '../../assets/icon/travel-bag.png'
 
 const Navbar = () => {
     const { user, signOutUser } = useContext(AuthContext);
@@ -187,7 +190,7 @@ const Navbar = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data.role);
-                    setUserRole(data.role); // Assuming API returns { role: "Tourist" } or similar
+                    setUserRole(data.role);
                 })
                 .catch((error) => {
                     console.error("Error fetching user role:", error);
@@ -201,10 +204,10 @@ const Navbar = () => {
         try {
             await signOutUser();
             console.log("User logged out successfully");
-            navigate("/"); // Redirect to home after logout
+            navigate("/");
         } catch (error) {
             console.error("Logout error:", error.message);
-            alert("Failed to log out. Please try again.");
+            console("Failed to log out. Please try again.");
         }
     };
 
@@ -309,7 +312,7 @@ const Navbar = () => {
                         to="/"
                         className="btn btn-ghost normal-case md:text-xl font-bold text-[#FFD700]"
                     >
-                        Imtiaz Tourism Ltd
+                        <img src={logo} alt="" /> Imtiaz Tourism Ltd
                     </NavLink>
                 </div>
                 <div className="navbar-center hidden lg:flex">

@@ -20,9 +20,10 @@ const PackageDetails = () => {
         console.log("User:", user);
         fetch(`https://imtiaztourismltdd.vercel.app/ourpackages/${id}`)
             .then((res) => res.json())
-            .then((data) => setPackageDetails(data))
-            .catch((error) => console.error("Error fetching package details:", error));
-
+            .then((data) => {
+                console.log("Fetched package details:", data);
+                setPackageDetails(data);
+            })
         fetch("https://imtiaztourismltdd.vercel.app/tourguides/all")
             .then((res) => res.json())
             .then((data) => setTourGuides(data))
@@ -78,8 +79,7 @@ const PackageDetails = () => {
             <div className="container mx-auto px-4">
                 <h2 className="text-4xl font-bold text-center mb-8">{packageDetails.name}</h2>
 
-                {/* Gallery Section */}
-                {/* Gallery Section */}
+
                 <div className="grid grid-rows-2 grid-cols-4 gap-4 mb-8">
                     {packageDetails.image?.length >= 5 ? (
                         <>
@@ -128,20 +128,21 @@ const PackageDetails = () => {
                 {/* About the Tour Section */}
                 <div className="mb-8 px-10">
                     <h3 className="text-2xl font-bold mb-4">About the Tour</h3>
-                    <p>{packageDetails.tourtype}</p>
+                    <p>{packageDetails.tourtype || "No tour type available."}</p>
                     <p className="text-xl font-semibold mb-4">Included:</p>
                     <ul className="list-disc pl-6 text-gray-700 space-y-2">
-                        {packageDetails.included.map((item, index) => (
+                        {packageDetails.included?.map((item, index) => (
                             <li key={index} className="text-lg">{item}</li>
-                        ))}
+                        )) || <li>No items included in this package.</li>}
                     </ul>
-                    <p className="text-xl font-semibold mb-4">Highlightes:</p>
+                    <p className="text-xl font-semibold mb-4">Highlights:</p>
                     <ul className="list-disc pl-6 text-gray-700 space-y-2">
-                        {packageDetails.highlights.map((item, index) => (
+                        {packageDetails.highlights?.map((item, index) => (
                             <li key={index} className="text-lg">{item}</li>
-                        ))}
+                        )) || <li>No highlights available for this package.</li>}
                     </ul>
                 </div>
+
 
                 {/* Tour Plan Section */}
                 <TourPlanSection packageDetails={packageDetails} />
