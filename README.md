@@ -43,12 +43,16 @@
 ✅ View **site stats** (total payments, guides, packages, clients, stories).  
 ✅ Manage **users, packages, and tour guide applications**.  
 
-### 🔹 Technologies used  - **Frontend:** React, Vite, Tailwind CSS, daisyUI
+### ⚙️ Technologies used  - 
+✅**Frontend:** React, Vite, Tailwind CSS, daisyUI
 ✅ **Backend & Database:** Firebase (Authentication, Firestore, Hosting), Nodejs, Mongodb
 ✅ **State Management:** Mongodb
 ✅ **UI Enhancements:** react-toastify, sweetalert2, react-tabs, Framer Motion, React-Spring.
 ✅ **JWT for authentication** (stored in local storage).  
 
+live URL.
+
+- Click here to watch [live site](https://imtiaz-tourism-ltd.web.app/)
 
 
 ### Prerequisites  
@@ -81,11 +85,25 @@ Ensure you have the following installed:
    ```sh
    npm install
    ```   
-3. Create a `.env` file in the project root and add the required environment variables (see below).  
-4. Start the development server:  
-   ```bash
-   npm run dev
-   ```  
+3. Create a `.env` file in the project root and add the required environment variables
+   ```env
+   VITE_apiKey=your-api-key
+   VITE_authDomain=your-auth-domain
+   VITE_projectId=your-project-id
+   VITE_storageBucket=your-storage-bucket
+   VITE_messagingSenderId=your-messaging-sender-id
+   VITE_appId=your-app-id
+   ``` 
+4. Running Locally
+```sh
+npm run dev
+```
+
+5. Building for Production
+```sh
+npm run build
+```
+ 
 
 
 ##📦 Dependencies
@@ -139,21 +157,5 @@ Ensure you have the following installed:
 - **`tailwindcss`** & **`daisyUI`**: Styling framework.  
 - **`vite`**: Frontend build tool for fast development.  
 
-## Environment Variables  
-Create a `.env` file in the root directory and add the following:  
 
-```env
-VITE_apiKey=your-api-key
-VITE_authDomain=your-auth-domain
-VITE_projectId=your-project-id
-VITE_storageBucket=your-storage-bucket
-VITE_messagingSenderId=your-messaging-sender-id
-VITE_appId=your-app-id
-```  
-
-This **README.md** is well-structured and provides all essential details about your project. Let me know if you need any modifications! 🚀
-
-live URL.
-
-- Click here to watch [live site](https://imtiaz-tourism-ltd.web.app/)
 
