@@ -60,7 +60,7 @@ Ensure you have the following installed:
 - [Node.js](https://nodejs.org/) (v16 or later)  
 - [Vite](https://vitejs.dev/)  
 
-### Steps  
+## 🛠 To run locally 
 1. Clone the repository:  
    ```bash
    git clone https://github.com/your-username/imtiaz-tourism-ltd.git
