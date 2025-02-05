@@ -150,20 +150,10 @@ VITE_storageBucket=your-storage-bucket
 VITE_messagingSenderId=your-messaging-sender-id
 VITE_appId=your-app-id
 ```  
-🔒 **Do not share your `.env` file publicly.**  
-
-## Live Demo  
-🌍 [Imtiaz Tourism Ltd Live](https://imtiaz-tourism-ltd.web.app/)  
-
-## License  
-This project is licensed under the **MIT License**.  
-
----
 
 This **README.md** is well-structured and provides all essential details about your project. Let me know if you need any modifications! 🚀
 
 live URL.
-- Admin User: imtsky24@gmail.com
-- Password: 123456Aa
+
 - Click here to watch [live site](https://imtiaz-tourism-ltd.web.app/)
 
