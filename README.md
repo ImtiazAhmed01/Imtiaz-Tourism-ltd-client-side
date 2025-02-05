@@ -1,5 +1,4 @@
 ![Imtiaz Tourism Ltd Screenshot](https://i.ibb.co.com/B2v9gpmc/Screenshot-45.png)
-
 # Imtiaz Tourism Ltd  
 
 ## Project overview 
