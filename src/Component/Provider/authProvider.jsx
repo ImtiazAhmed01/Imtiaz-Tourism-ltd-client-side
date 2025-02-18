@@ -22,46 +22,6 @@ const AuthProvider = ({ children }) => {
     const googleProvider = new GoogleAuthProvider();
 
 
-    const createUser = async (email, password, userDetails) => {
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const newUser = userCredential.user;
-
-            await updateProfile(newUser, {
-                displayName: userDetails.displayName,
-                photoURL: userDetails.photoURL,
-            });
-
-            const updatedUser = {
-                ...newUser,
-                displayName: userDetails.displayName,
-                photoURL: userDetails.photoURL,
-            };
-
-            setUser(updatedUser);
-            localStorage.setItem("userProfile", JSON.stringify(updatedUser));
-
-            toast.success("Account created successfully!", {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
-            });
-
-            navigate("/");  // Ensure you're navigating to the desired page after registration
-            return updatedUser;
-        } catch (error) {
-            console.error("Error creating user:", error.message);
-            toast.error("Failed to create account. Please try again.", {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
-            });
-            throw error;
-        }
-    };
-
 
 
     const updateUserProfile = async (updatedUser) => {
@@ -72,14 +32,18 @@ const AuthProvider = ({ children }) => {
                     photoURL: updatedUser.photoURL,
                 });
 
+                // Store userRole separately in localStorage
                 const updatedProfile = {
-                    ...auth.currentUser,
+                    uid: auth.currentUser.uid,
                     displayName: updatedUser.displayName,
                     photoURL: updatedUser.photoURL,
+                    userRole: updatedUser.userRole || "Tourist",
+
                 };
 
                 setUser(updatedProfile);
                 localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+                localStorage.setItem("userRole", updatedProfile.userRole); // Ensure role is stored
 
                 toast.success("Profile updated successfully!", {
                     position: "top-center",
@@ -99,7 +63,6 @@ const AuthProvider = ({ children }) => {
             throw error;
         }
     };
-
 
     const signOutUser = async () => {
         try {
@@ -122,6 +85,69 @@ const AuthProvider = ({ children }) => {
                 theme: "light",
                 transition: Bounce,
             });
+        }
+    };
+
+    const createUser = async (email, password, userDetails) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const newUser = userCredential.user;
+
+            await updateProfile(newUser, {
+                displayName: userDetails.displayName,
+                photoURL: userDetails.photoURL,
+            });
+
+            const token = await newUser.getIdToken();
+            localStorage.setItem("authToken", token);
+
+            // Initially set user with default role
+            const tempUser = {
+                email: newUser.email,
+                displayName: userDetails.displayName || "Tourist",
+                photoURL: userDetails.photoURL,
+                userRole: "Tourist", // Default role
+            };
+
+            setUser(tempUser);
+            localStorage.setItem("userProfile", JSON.stringify(tempUser));
+            localStorage.setItem("userRole", "Tourist");
+
+            toast.success("Account created successfully!", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+
+            // Fetch the updated role from the backend
+            const response = await fetch(`http://localhost:5000/users/role?email=${newUser.email}`);
+            if (response.ok) {
+                const data = await response.json();
+                const updatedUser = {
+                    ...tempUser,
+                    userRole: data.role,
+                };
+
+                setUser(updatedUser);
+                localStorage.setItem("userProfile", JSON.stringify(updatedUser));
+                localStorage.setItem("userRole", data.role);
+            } else {
+                console.error("Failed to fetch user role");
+            }
+
+            // Redirect to the dashboard or home page
+            navigate("/");
+            return tempUser;
+        } catch (error) {
+            console.error("Error creating user:", error.message);
+            toast.error("Failed to create account. Please try again.", {
+                position: "top-center",
+                autoClose: 5000,
+                theme: "light",
+                transition: Bounce,
+            });
+            throw error;
         }
     };
 
@@ -233,6 +259,8 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
+                const token = await currentUser.getIdToken();
+                localStorage.setItem("authToken", token);
                 const localUserData = {
                     email: currentUser.email,
                     displayName: currentUser.displayName || "Tourist",
@@ -240,7 +268,7 @@ const AuthProvider = ({ children }) => {
                 };
 
                 try {
-                    const response = await fetch(`/users?email=${currentUser.email}`);
+                    const response = await fetch(`http//localhost:5000/register?email=${currentUser.email}`);
                     if (response.ok) {
                         const apiUserData = await response.json();
                         const combinedUserData = {

@@ -155,7 +155,7 @@ const PackageDetails = () => {
                             <div
                                 key={guide.id}
                                 className="p-4 bg-white rounded-md shadow-md cursor-pointer hover:shadow-lg"
-                                onClick={() => navigate(`/guides/${guide.id}`)}
+                                onClick={() => navigate(`/tourguides/${guide._id}`)}
                             >
                                 <img
                                     src={guide.img}

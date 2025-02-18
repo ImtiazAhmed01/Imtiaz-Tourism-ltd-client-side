@@ -57,7 +57,7 @@ const router = createBrowserRouter([
         element: <PackageDetails></PackageDetails>
       },
       {
-        path: '/guideProfile/:id',
+        path: '/tourguides/:id',
         element: <GuideProfile></GuideProfile>
       },
       {

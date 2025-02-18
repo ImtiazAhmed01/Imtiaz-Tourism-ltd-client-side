@@ -6,7 +6,7 @@ import { AuthContext } from "../Provider/authProvider";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const Register = () => {
-    const { signInWithGoogle } = useContext(AuthContext);
+    const { signInWithGoogle, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [formErrors, setFormErrors] = useState({});
@@ -83,6 +83,7 @@ const Register = () => {
 
 
 
+
     const handleRegister = async (e) => {
         e.preventDefault();
         const formData = {
@@ -90,20 +91,13 @@ const Register = () => {
             lname: e.target.lname.value,
             email: e.target.email.value,
             password: e.target.password.value,
-            imageURL: e.target.imageURL.value,
+            imageURL: e.target.imageURL.value || "", // Ensure imageURL is not undefined
         };
-        console.log("Form Data:", formData);
 
         const errors = validateForm(formData);
         if (Object.keys(errors).length > 0) {
-            console.log("Validation Errors:", errors);
             setFormErrors(errors);
-            toast.error("Please fix the errors in the form.", {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
-            });
+            toast.error("Please fix the errors in the form.");
             return;
         }
 
@@ -111,49 +105,43 @@ const Register = () => {
             const auth = getAuth();
             const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
             const user = userCredential.user;
-            await updateProfile(user, {
+
+            // Update user profile in Firebase
+            await updateUserProfile({
                 displayName: `${formData.fname} ${formData.lname}`,
                 photoURL: formData.imageURL,
+                // userRole: "Tourist",
+                role: "tourist",
             });
 
-            // data to server
+            // Prepare user data for the backend
+            const userData = {
+                uid: user.uid, // Include UID for unique identification
+                firstName: formData.fname,
+                lastName: formData.lname,
+                email: formData.email,
+                photoURL: formData.imageURL,
+                registrationDate: new Date().toISOString(),
+            };
+
+            // Send user data to the backend
             const serverResponse = await fetch("https://imtiaztourismltdd.vercel.app/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    firstName: formData.fname,
-                    lastName: formData.lname,
-                    email: formData.email,
-                    photoURL: formData.imageURL,
-                    registrationDate: new Date().toISOString(),
-                }),
+                body: JSON.stringify(userData),
             });
-
-
 
             if (!serverResponse.ok) {
                 throw new Error("Failed to save user data to the server.");
             }
 
-            toast.success("User created successfully!", {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
-            });
-
+            toast.success("User registered successfully!");
             navigate("/");
-
         } catch (error) {
             console.error("Error creating user:", error.message);
-            toast.error("Error creating user. Please try again.", {
-                position: "top-center",
-                autoClose: 5000,
-                theme: "light",
-                transition: Bounce,
-            });
+            toast.error("Error creating user. Please try again.");
         }
     };
 
