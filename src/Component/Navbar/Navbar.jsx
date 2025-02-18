@@ -283,7 +283,7 @@ const Navbar = () => {
 
 
     return (
-        <div>
+        <div className=" sticky top-0 z-50">
             {user && user.displayName && (
                 <div className="bg-[#FEFAE0] text-center py-2">
                     <span className="text-sm font-medium text-[#333533]">
@@ -291,7 +291,9 @@ const Navbar = () => {
                     </span>
                 </div>
             )}
-            <div className="navbar" style={{ backgroundColor: "#008080" }}>
+            <div className="navbar bg-[#008080]">
+
+
                 <div className="navbar-start">
                     <div className="dropdown">
                         <button tabIndex={0} className="btn btn-ghost lg:hidden text-[#3F0113]">
