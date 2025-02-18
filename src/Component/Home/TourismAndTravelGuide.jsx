@@ -57,10 +57,21 @@ const TourismAndTravelGuide = () => {
                                         onClick={() => navigate(`/packages/${pkg._id}`)}
                                         className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded-lg hover:bg-[#3F0113] hover:text-[#FFA500] transition"
                                     >
-                                        View Details
+                                        See More
                                     </button>
                                 </div>
+
                             ))}
+
+
+                        </div>
+                        <div className='text-center'>
+                            <button
+                                onClick={() => navigate(`/alltirpspages`)}
+                                className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded-lg hover:bg-[#3F0113] hover:text-[#FFA500] transition"
+                            >
+                                See more packages
+                            </button>
                         </div>
                     </TabPanel>
 
@@ -86,9 +97,9 @@ const TourismAndTravelGuide = () => {
                                     <p><strong>Rating:</strong> {guide.rating} ⭐</p>
                                     <p><strong>Availability:</strong> {guide.availability}</p>
                                     <button
-                                        onClick={() => navigate(`/guideProfile/${guide._id}`)}
+                                        onClick={() => navigate(`/tourguides/${guide._id}`)}
                                         className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded-lg hover:bg-[#3F0113] hover:text-[#FFA500] transition"
-                                    >Details
+                                    >See More
                                     </button>
                                 </div>
                             ))}
