@@ -254,16 +254,30 @@ const Navbar = () => {
                     About Us
                 </NavLink>
             </li>
-            <li className="mx-1">
-                <NavLink
-                    to="/alltirpspages"
-                    className={({ isActive }) =>
-                        `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
-                    }
-                >
-                    All Trips
-                </NavLink>
-            </li>
+            {user && user.displayName && (
+                <>
+                    <li className="mx-1">
+                        <NavLink
+                            to="/alltirpspages"
+                            className={({ isActive }) =>
+                                `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
+                            }
+                        >
+                            All Trips
+                        </NavLink>
+                    </li>
+                    <li className="mx-1">
+                        <NavLink
+                            to="/alltourguides"
+                            className={({ isActive }) =>
+                                `px-4 py-2 rounded ${isActive ? " bg-[#FFA500] text-white" : "bg-transparent text-black"}`
+                            }
+                        >
+                            Our Tour Guides
+                        </NavLink>
+                    </li>
+                </>
+            )}
         </>
     );
 
@@ -276,7 +290,7 @@ const Navbar = () => {
             case "Tourist":
                 return "/dashboard/tourist";
             default:
-                return "/dashboard/tourist"; // Default path if userRole is undefined
+                return "/dashboard/tourist";
         }
     };
 
@@ -285,7 +299,7 @@ const Navbar = () => {
     return (
         <div className=" sticky top-0 z-50">
             {user && user.displayName && (
-                <div className="bg-[#FEFAE0] text-center py-2">
+                <div className="bg-[#008080]/90 text-center py-2">
                     <span className="text-sm font-medium text-[#333533]">
                         Welcome, {user.displayName}!
                     </span>

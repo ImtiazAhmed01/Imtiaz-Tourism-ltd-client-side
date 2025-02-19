@@ -71,7 +71,7 @@ const TouristStorySection = ({ isLoggedIn }) => {
                                 quote={story.title}
                                 onClick={() => handleShare(story.image)}
                             >
-                                <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                <button className="bg-[#FFA500] text-white px-4 py-2 rounded hover:bg-[#FFA500]/80">
                                     Share on Facebook
                                 </button>
                             </FacebookShareButton>
@@ -80,14 +80,20 @@ const TouristStorySection = ({ isLoggedIn }) => {
                 ))}
             </div>
             <div className="flex justify-center mt-6 space-x-4">
+                {/* <button
+                    className="bg-[#FFA500] hover:bg-[#FFA500]/80  text-white px-6 py-2 rounded "
+                    onClick={() => navigate('/community')}
+                >
+                    All Stories
+                </button> */}
                 <button
-                    className="bg-gray-800 text-white px-6 py-2 rounded hover:bg-gray-900"
+                    className="bg-[#3F0113] hover:bg-[#FFA500] text-white px-6 py-2 rounded "
                     onClick={() => navigate('/community')}
                 >
                     All Stories
                 </button>
                 <button
-                    className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600"
+                    className="bg-[#FFA500] hover:bg-[#FFA500]/80 text-white px-6 py-2 rounded"
                     onClick={() => navigate('/addstories')}
                 >
                     Add Stories

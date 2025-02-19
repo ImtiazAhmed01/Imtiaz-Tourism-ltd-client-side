@@ -32,6 +32,7 @@ import ManageUsers from './Component/Admin/ManageUsers'
 import ManageCandidate from './Component/Admin/ManageCandidate'
 import MyAssignedTours from './Component/Tour Guide/MyAssignedTours'
 import StoriesTG from './Component/Tour Guide/StoriesTG'
+import AllTourGuide from './Component/AllTourGuide/AllTourGuide'
 
 const stripePromise = loadStripe('pk_test_51QjKgaAwC1fImaEQKbRyeHqq3iw3ufeIP1FU4awqUbJeavujVfjrOmIsnFtx5Rb98KteM18htlYTO4caZztCMqkA00G1ifOgo6');
 
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: '/alltirpspages',
         element: <AllTripsPage></AllTripsPage>
+      },
+      {
+        path: "/alltourguides",
+        element: <AllTourGuide></AllTourGuide>
       },
       {
         path: '/community',

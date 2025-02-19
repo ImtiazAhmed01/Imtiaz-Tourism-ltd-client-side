@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../../assets/icon/travel-bag.png'
+import { useNavigate } from 'react-router-dom';
 const Footer = () => {
+    const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const aboutUs = () => {
+        navigate("/aboutus")
+    }
     return (
         <footer className="footer footer-center bg-black text-white rounded p-10">
             <h1 className='text-3xl font-extrabold'> <img src={logo} alt="" />Imtiaz Tourism Ltd</h1>
             <nav className="grid grid-flow-col gap-4">
-                <a className="link link-hover">About us</a>
-                <a className="link link-hover">Contact</a>
-                <a className="link link-hover">Privacy Policy</a>
-                <a className="link link-hover">Press kit</a>
+                <a className="link link-hover" onClick={aboutUs}>About us</a>
+                <a className="link link-hover" onClick={() => setIsModalOpen(true)}>Privacy Polcy</a>
+
             </nav>
             <nav>
                 <div className="grid grid-flow-col gap-4">
@@ -39,6 +44,27 @@ const Footer = () => {
             <aside>
                 <p>Copyright © {new Date().getFullYear()} - All right reserved by Imtiaz Toursim Ltd</p>
             </aside>
+
+
+
+
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black text-[#3F0113] bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                        <h2 className="text-xl font-bold">Privacy Policy</h2>
+                        <p className="mb-4">
+                            At Imtiaz Tourism Ltd, we value your privacy. This Privacy Policy outlines how we collect,
+                            use, and protect your personal information when you use our services. We do not share your
+                            data with third parties without your consent.
+                        </p>
+                        <p className="mb-4">
+                            By using our website, you agree to our data collection and use policies. If you have any
+                            concerns, please contact us.
+                        </p>
+                        <button className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded" onClick={() => setIsModalOpen(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </footer>
     );
 };
