@@ -5,6 +5,8 @@ import TourismAndTravelGuide from './TourismAndTravelGuide';
 import TouristStorySection from './touristStorySection';
 import TopDestination from './TopDestination';
 import CulturalHighlightBD from './culturalHighlightBD';
+import TravelBlogNews from './TravelBlogNews';
+import TravelTipsAdvice from './TravelTipsAdvice';
 
 const Home = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -36,9 +38,16 @@ const Home = () => {
                 <TopDestination></TopDestination>
             </div>
             <div>
+                <TravelBlogNews></TravelBlogNews>
+            </div>
+            <div>
+                <TravelTipsAdvice></TravelTipsAdvice>
+            </div>
+            <div>
                 <CulturalHighlightBD></CulturalHighlightBD>
 
             </div>
+
         </div>
     );
 };
