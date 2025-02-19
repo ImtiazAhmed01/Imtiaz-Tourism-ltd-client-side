@@ -81,7 +81,7 @@
 //                     />
 //                     <div className="text-left text-gray-600">
 //                         <p>
-//                             <strong className="text-red-500">Name:</strong> {userData?.fullName || 'N/A'}
+//                             <strong className="">Name:</strong> {userData?.fullName || 'N/A'}
 //                         </p>
 //                         <p>
 //                             <strong className="text-red-500">Role:</strong> {userData?.userRole || 'Tourist'}
@@ -202,6 +202,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Provider/authProvider';
 import AdminState from '../Admin/AdminState';
+import Overstate from '../Overstate/Overstate';
 
 const TouristManageProfile = () => {
     const navigate = useNavigate();
@@ -218,8 +219,9 @@ const TouristManageProfile = () => {
                     if (!response.ok) {
                         throw new Error('Failed to fetch user data');
                     }
-                    const data = await response.json(); // Direct object
-                    setUserData(data); // Set the user object directly
+                    const data = await response.json();
+                    console.log("Fetched User Data:", data);  // Check if age, address, phone are present
+                    setUserData(data);
                 } catch (error) {
                     console.error('Error fetching user data:', error.message);
                 }
@@ -230,7 +232,7 @@ const TouristManageProfile = () => {
 
         fetchUserData();
     }, [user]);
-    // Re-run if user changes
+
 
     const handleEditChange = (e) => {
         const { name, value } = e.target;
@@ -279,18 +281,27 @@ const TouristManageProfile = () => {
                         alt="User profile"
                         className="w-36 h-36 rounded-lg object-cover border-4 border-gray-700 transition-transform hover:scale-105 mr-8"
                     />
-                    <div className="text-left text-gray-600">
+                    <div className="text-left ">
                         <p>
-                            <strong className="text-red-500">Name:</strong> {userData?.fullName || 'N/A'}
+                            <strong className="">Name:</strong> {userData?.fullName || 'N/A'}
                         </p>
                         <p>
-                            <strong className="text-red-500">Role:</strong> {userData?.userRole || 'Tourist'}
+                            <strong className="">Role:</strong> {userData?.userRole || 'Tourist'}
                         </p>
                         <p>
-                            <strong className="text-red-500">Joined:</strong> {userData?.registrationDate || 'N/A'}
+                            <strong className="">Joined:</strong> {userData?.registrationDate || 'N/A'}
                         </p>
                         <p>
-                            <strong className="text-red-500">Email:</strong> {userData?.email || 'N/A'}
+                            <strong className="">Email:</strong> {userData?.email || 'N/A'}
+                        </p>
+                        <p>
+                            <strong className="">Age:</strong> {userData?.age || 'N/A'}
+                        </p>
+                        <p>
+                            <strong className="">Address:</strong> {userData?.address || 'N/A'}
+                        </p>
+                        <p>
+                            <strong className="">Phone:</strong> {userData?.phone || 'N/A'}
                         </p>
                     </div>
                 </div>
@@ -339,20 +350,20 @@ const TouristManageProfile = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-700 font-medium mb-1">Rols</label>
+                                <label className="block text-gray-700 font-medium mb-1">Role</label>
                                 <input
                                     type="text"
-                                    name="lastName"
+                                    name="userRole"
                                     value={userData?.userRole}
                                     readOnly
                                     className="input input-bordered w-full"
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-700 font-medium mb-1">Your Email</label>
+                                <label className="block text-gray-700 font-medium mb-1">Email</label>
                                 <input
                                     type="text"
-                                    name="lastName"
+                                    name="email"
                                     value={userData?.email}
                                     readOnly
                                     className="input input-bordered w-full"
@@ -364,6 +375,36 @@ const TouristManageProfile = () => {
                                     type="text"
                                     name="photoURL"
                                     value={editedUser.photoURL || userData?.photoURL || ''}
+                                    onChange={handleEditChange}
+                                    className="input input-bordered w-full"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-medium mb-1">Age</label>
+                                <input
+                                    type="text"
+                                    name="age"
+                                    value={editedUser.age || userData?.age || ''}
+                                    onChange={handleEditChange}
+                                    className="input input-bordered w-full"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-medium mb-1">Address</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    value={editedUser.address || userData?.address || ''}
+                                    onChange={handleEditChange}
+                                    className="input input-bordered w-full"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-medium mb-1">Phone</label>
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value={editedUser.phone || userData?.phone || ''}
                                     onChange={handleEditChange}
                                     className="input input-bordered w-full"
                                 />
@@ -388,8 +429,9 @@ const TouristManageProfile = () => {
                     </div>
                 </div>
             )}
-
-
+            <div>
+                <Overstate></Overstate>
+            </div>
         </div>
     );
 };
