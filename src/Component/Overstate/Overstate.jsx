@@ -14,7 +14,7 @@ const Overstate = () => {
     });
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/stats')  // Replace with your backend API URL
+        fetch('https://imtiaztourismltdd.vercel.app/api/stats')  // Replace with your backend API URL
             .then((response) => response.json())
             .then((data) => {
                 setStats(data);
