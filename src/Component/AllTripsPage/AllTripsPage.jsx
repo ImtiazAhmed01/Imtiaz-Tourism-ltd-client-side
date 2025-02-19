@@ -3,22 +3,57 @@ import { useNavigate } from 'react-router-dom';
 
 const AllTripsPage = () => {
     const [packages, setPackages] = useState([]);
+    const [sortedPackages, setSortedPackages] = useState([]);
+    const [sortOrder, setSortOrder] = useState('default'); // 'asc', 'desc', 'default'
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch all packages from the backend
         fetch('https://imtiaztourismltdd.vercel.app/ourpackages/allpackages')
             .then((res) => res.json())
-            .then((data) => setPackages(data))
+            .then((data) => {
+                setPackages(data);
+                setSortedPackages(data);
+            })
             .catch((error) => console.error("Error fetching packages:", error));
     }, []);
+
+    // Sorting function
+    const handleSortChange = (order) => {
+        setSortOrder(order);
+        let sortedData = [...packages];
+
+        if (order === 'asc') {
+            sortedData.sort((a, b) => a.price - b.price);
+        } else if (order === 'desc') {
+            sortedData.sort((a, b) => b.price - a.price);
+        } else {
+            sortedData = [...packages]; // Reset to original order
+        }
+
+        setSortedPackages(sortedData);
+    };
 
     return (
         <section className="all-trips-section py-16 bg-gray-100">
             <div className="container mx-auto px-4">
                 <h2 className="text-4xl font-bold text-center mb-8">All Trips</h2>
+
+                {/* Sorting Dropdown */}
+                <div className="flex justify-end mb-4">
+                    <select
+                        className="px-4 py-2 border rounded-md shadow-sm"
+                        value={sortOrder}
+                        onChange={(e) => handleSortChange(e.target.value)}
+                    >
+                        <option value="default">Sort By</option>
+                        <option value="asc">Price: Low to High</option>
+                        <option value="desc">Price: High to Low</option>
+                    </select>
+                </div>
+
+                {/* Display Sorted Packages */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {packages.map((pkg) => (
+                    {sortedPackages.map((pkg) => (
                         <div
                             key={pkg._id}
                             className="package-card bg-white shadow-lg rounded-lg p-4"
