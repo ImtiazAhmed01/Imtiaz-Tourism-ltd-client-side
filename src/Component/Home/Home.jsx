@@ -7,6 +7,7 @@ import TopDestination from './TopDestination';
 import CulturalHighlightBD from './culturalHighlightBD';
 import TravelBlogNews from './TravelBlogNews';
 import TravelTipsAdvice from './TravelTipsAdvice';
+import LocalEvents from './LocalEvents';
 
 const Home = () => {
 
@@ -39,6 +40,9 @@ const Home = () => {
             <div>
                 <CulturalHighlightBD></CulturalHighlightBD>
 
+            </div>
+            <div>
+                <LocalEvents></LocalEvents>
             </div>
 
         </div>
