@@ -47,18 +47,17 @@ const events = [
 
 const LocalEvents = () => {
     return (
-        <div className="p-4 sm:p-6 md:p-10 bg-white shadow-md my-10 rounded-lg max-w-7xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-[#9538E2] text-center">Local Events & Festivals</h2>
+        <div className="p-4 sm:p-6 md:p-10 bg-gradient-to-br from-[#008080]/50 to-white shadow-md my-10 rounded-lg max-w-7xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text- text-center">Local Events & Festivals</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {events.map(event => (
                     <div
                         key={event.id}
-                        className="border p-4 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 bg-gradient-to-br from-purple-50 to-white"
-                    >
+                        className="border p-4 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 border-white">
                         <h3 className="text-lg sm:text-xl font-semibold mb-1">{event.title}</h3>
-                        <p className="text-sm text-gray-600 mb-1"><strong>Date:</strong> {event.date}</p>
-                        <p className="text-sm text-gray-600 mb-2"><strong>Location:</strong> {event.location}</p>
-                        <p className="text-sm text-gray-700">{event.description}</p>
+                        <p className="text-sm text-gray-800 mb-1"><strong>Date:</strong> {event.date}</p>
+                        <p className="text-sm text-gray-800 mb-2"><strong>Location:</strong> {event.location}</p>
+                        <p className="text-sm text-gray-900">{event.description}</p>
                     </div>
                 ))}
             </div>
