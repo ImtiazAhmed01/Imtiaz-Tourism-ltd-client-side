@@ -26,7 +26,7 @@ const TourismAndTravelGuide = () => {
     }, []);
 
     return (
-        <section className="tourism-section py-16">
+        <section className="tourism-section py-16 md:px-16 lg:px-28">
             <div className="container mx-auto px-4">
                 < h2 className="text-4xl font-bold text-center mb-8" > Tourism and Travel Guide</ h2>
                 <Tabs>
@@ -77,32 +77,43 @@ const TourismAndTravelGuide = () => {
 
                     {/* Meet Our Tour Guides Tab */}
                     <TabPanel>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {guides.map((guide) => (
-                                <div
-                                    key={guide._id}
-                                    className="guide-card bg-white shadow-lg rounded-lg p-4"
+                        <div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {guides.map((guide) => (
+                                    <div
+                                        key={guide._id}
+                                        className="guide-card bg-white shadow-lg rounded-lg p-4"
+                                    >
+                                        <img
+                                            src={guide.img}
+                                            alt={guide.name}
+                                            className="w-full h-48 object-cover rounded-md"
+                                        />
+                                        <h3 className="text-xl font-bold mt-4">{guide.name}</h3>
+                                        <p><strong>Age:</strong> {guide.age}</p>
+                                        <p><strong>Gender:</strong> {guide.gender}</p>
+                                        <p><strong>Languages:</strong> {guide.language?.join(', ') || 'Not specified'}</p>
+                                        <p><strong>Experience:</strong> {guide.experience}</p>
+                                        <p><strong>Specialty:</strong> {guide.specialty}</p>
+                                        <p><strong>Rating:</strong> {guide.rating} ⭐</p>
+                                        <p><strong>Availability:</strong> {guide.availability}</p>
+                                        <button
+                                            onClick={() => navigate(`/tourguides/${guide._id}`)}
+                                            className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded-lg hover:bg-[#3F0113] hover:text-[#FFA500] transition"
+                                        >See More
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className='text-center'>
+                                <button
+                                    onClick={() => navigate(`/alltourguides`)}
+                                    className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded-lg hover:bg-[#3F0113] hover:text-[#FFA500] transition"
                                 >
-                                    <img
-                                        src={guide.img}
-                                        alt={guide.name}
-                                        className="w-full h-48 object-cover rounded-md"
-                                    />
-                                    <h3 className="text-xl font-bold mt-4">{guide.name}</h3>
-                                    <p><strong>Age:</strong> {guide.age}</p>
-                                    <p><strong>Gender:</strong> {guide.gender}</p>
-                                    <p><strong>Languages:</strong> {guide.language?.join(', ') || 'Not specified'}</p>
-                                    <p><strong>Experience:</strong> {guide.experience}</p>
-                                    <p><strong>Specialty:</strong> {guide.specialty}</p>
-                                    <p><strong>Rating:</strong> {guide.rating} ⭐</p>
-                                    <p><strong>Availability:</strong> {guide.availability}</p>
-                                    <button
-                                        onClick={() => navigate(`/tourguides/${guide._id}`)}
-                                        className="mt-4 px-4 py-2 bg-[#FFA500] text-white rounded-lg hover:bg-[#3F0113] hover:text-[#FFA500] transition"
-                                    >See More
-                                    </button>
-                                </div>
-                            ))}
+                                    See more guides
+                                </button>
+                            </div>
+
                         </div>
                     </TabPanel>
 
