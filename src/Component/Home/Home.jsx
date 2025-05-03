@@ -8,6 +8,7 @@ import CulturalHighlightBD from './culturalHighlightBD';
 import TravelBlogNews from './TravelBlogNews';
 import TravelTipsAdvice from './TravelTipsAdvice';
 import LocalEvents from './LocalEvents';
+import OfficeMap from './OfficeMap';
 
 const Home = () => {
 
@@ -21,6 +22,9 @@ const Home = () => {
             <MyCarousel></MyCarousel>
             <div>
                 <OverviewSection></OverviewSection>
+            </div>
+            <div>
+                <OfficeMap></OfficeMap>
             </div>
             <div>
                 <TourismAndTravelGuide></TourismAndTravelGuide>
