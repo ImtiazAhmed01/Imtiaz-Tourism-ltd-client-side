@@ -19,8 +19,8 @@ const OfficeMap = () => {
 
     return (
         <div className="relative z-10 my-10 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-[#9538E2] text-center">
-                Imtiaz Tourism Ltd Office
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center">
+                Our Dubai Tourism Office
             </h2>
             <div className="rounded-lg overflow-hidden shadow-md border border-gray-200">
                 <MapContainer
