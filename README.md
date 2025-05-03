@@ -117,6 +117,7 @@ npm run build
 - react-datepicker: ^7.6.0,
 - react-dom: ^18.3.1,
 - react-hot-toast: ^2.5.1,
+- "react-leaflet": "^4.2.1",
 - react-router-dom: ^7.1.1,
 - react-select: ^5.9.0,
 - react-share: ^5.1.2,
