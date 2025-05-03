@@ -34,7 +34,7 @@ const AllTripsPage = () => {
     };
 
     return (
-        <section className="all-trips-section py-16 bg-gray-100">
+        <section className="all-trips-section py-16 ">
             <div className="container mx-auto px-4">
                 <h2 className="text-4xl font-bold text-center mb-8">All Trips</h2>
 

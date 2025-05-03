@@ -25,7 +25,7 @@ const TravelTipsAdvice = () => {
                 {tips.map((tip, index) => (
                     <motion.li
                         key={index}
-                        className="bg-[#FEFAE0] p-4 rounded-md shadow-lg cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD700] hover:scale-105"
+                        className="bg-[#FEFAE0] text-[#3F0113] p-4 rounded-md shadow-lg cursor-pointer transition duration-300 ease-in-out hover:bg-[#FFD700] hover:scale-105"
                         whileHover={{ scale: 1.05 }}
                     >
                         {tip}

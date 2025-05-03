@@ -153,12 +153,12 @@ const MyBooking = () => {
                 My Bookings
             </h2>
             {loading ? (
-                <p className="text-center text-gray-600">Loading bookings...</p>
+                <p className="text-center ">Loading bookings...</p>
             ) : (
                 <div className="overflow-x-auto">
                     <table className="table-auto w-full border-collapse text-sm sm:text-base text-center text-gray-700">
                         <thead>
-                            <tr className="bg-indigo-600 text-white">
+                            <tr className="bg-[#008080]">
                                 <th className="px-2 sm:px-4 py-2">Package</th>
                                 <th className="px-2 sm:px-4 py-2">Tour Guide</th>
                                 <th className="px-2 sm:px-4 py-2">Tour Date</th>

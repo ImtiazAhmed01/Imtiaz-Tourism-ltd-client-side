@@ -216,7 +216,7 @@ const JoinAsTourGuide = () => {
                     />
                 </div>
                 <div className="text-center">
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn bg-[#FFA500] text-black">
                         Submit Application
                     </button>
                 </div>
@@ -295,7 +295,7 @@ const JoinAsTourGuide = () => {
                                             <button
                                                 type="button"
                                                 onClick={() => removeLanguageField(index)}
-                                                className="btn btn-error"
+                                                className="btn bg-[#FFA500]"
                                             >
                                                 Remove
                                             </button>
@@ -305,7 +305,7 @@ const JoinAsTourGuide = () => {
                                 <button
                                     type="button"
                                     onClick={addLanguageField}
-                                    className="btn btn-secondary"
+                                    className="btn bg-[#008080]"
                                 >
                                     Add Language
                                 </button>
@@ -333,12 +333,12 @@ const JoinAsTourGuide = () => {
                             </select>
                         </div>
                         <div className="space-x-4 mt-4">
-                            <button onClick={showConfirmationDialog} className="btn btn-primary">
+                            <button onClick={showConfirmationDialog} className="btn bg-[#008080]">
                                 Submit
                             </button>
                             <button
                                 onClick={() => setDetailsModalOpen(false)}
-                                className="btn btn-error"
+                                className="btn bg-[#FFA500]"
                             >
                                 Cancel
                             </button>

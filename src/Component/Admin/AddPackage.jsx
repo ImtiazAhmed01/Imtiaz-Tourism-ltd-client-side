@@ -319,7 +319,7 @@ const AddPackage = () => {
                                     <button
                                         type="button"
                                         onClick={() => removeArrayField(field, index)}
-                                        className="bg-red-500 text-white rounded-lg px-4 py-2 hover:bg-red-600"
+                                        className="bg-[#FFA500] text-white rounded-lg px-4 py-2 hover:bg-[#FFA500]"
                                     >
                                         Remove
                                     </button>
@@ -328,7 +328,7 @@ const AddPackage = () => {
                             <button
                                 type="button"
                                 onClick={() => addArrayField(field)}
-                                className="bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-600"
+                                className="bg-[#008080]/70 text-white rounded-lg px-4 py-2 hover:bg-[#008080]"
                             >
                                 Add more field
                             </button>
@@ -337,7 +337,7 @@ const AddPackage = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white rounded-lg px-5 py-3 hover:bg-blue-600 font-medium"
+                        className="w-full bg-[#008080] text-white rounded-lg px-5 py-3 font-medium"
                     >
                         Submit
                     </button>

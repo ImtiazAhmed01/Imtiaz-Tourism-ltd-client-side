@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FacebookShareButton } from 'react-share';
+import Overstate from '../Overstate/Overstate';
 
 const GuideProfile = () => {
     const { id } = useParams(); // Get guide ID from route parameter
@@ -122,6 +123,9 @@ const GuideProfile = () => {
                     )}
                 </div>
 
+            </div>
+            <div>
+                <Overstate></Overstate>
             </div>
         </div>
     );

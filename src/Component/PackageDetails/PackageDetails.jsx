@@ -75,7 +75,7 @@ const PackageDetails = () => {
     if (!packageDetails) return <div>Loading...</div>;
 
     return (
-        <section className="package-details-section py-16 bg-gray-100">
+        <section className="package-details-section py-16 ">
             <div className="container mx-auto px-4">
                 <h2 className="text-4xl font-bold text-center mb-8">{packageDetails.name}</h2>
 
@@ -130,13 +130,13 @@ const PackageDetails = () => {
                     <h3 className="text-2xl font-bold mb-4">About the Tour</h3>
                     <p>{packageDetails.tourtype || "No tour type available."}</p>
                     <p className="text-xl font-semibold mb-4">Included:</p>
-                    <ul className="list-disc pl-6 text-gray-700 space-y-2">
+                    <ul className="list-disc pl-6  space-y-2">
                         {packageDetails.included?.map((item, index) => (
                             <li key={index} className="text-lg">{item}</li>
                         )) || <li>No items included in this package.</li>}
                     </ul>
                     <p className="text-xl font-semibold mb-4">Highlights:</p>
-                    <ul className="list-disc pl-6 text-gray-700 space-y-2">
+                    <ul className="list-disc pl-6  space-y-2">
                         {packageDetails.highlights?.map((item, index) => (
                             <li key={index} className="text-lg">{item}</li>
                         )) || <li>No highlights available for this package.</li>}
@@ -148,10 +148,10 @@ const PackageDetails = () => {
                 <TourPlanSection packageDetails={packageDetails} />
 
                 {/* Tour Guides Section */}
-                <div className="px-4 sm:px-8 lg:px-16 py-8 bg-gray-50">
+                <div className="px-4 sm:px-8 lg:px-16 py-8 ">
                     {/* Tour Guides Section */}
                     <div className="text-center mb-8">
-                        <h3 className="text-3xl font-bold mb-4 text-gray-800">Tour Guides</h3>
+                        <h3 className="text-3xl font-bold mb-4 ">Tour Guides</h3>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -167,10 +167,10 @@ const PackageDetails = () => {
                                     className="w-full h-60 object-cover rounded-lg mb-4"
                                 />
                                 <h4 className="text-xl font-semibold text-gray-900">{guide.name}</h4>
-                                <p className="text-sm text-gray-700 mt-1">
+                                <p className="text-sm  mt-1">
                                     <strong>Experience:</strong> {guide.experience}
                                 </p>
-                                <p className="text-sm text-gray-700 mt-1">
+                                <p className="text-sm  mt-1">
                                     <strong>Availability:</strong> {guide.availability}
                                 </p>
                             </div>
@@ -179,11 +179,11 @@ const PackageDetails = () => {
                 </div>
 
                 {/* Booking Form */}
-                <div className="bg-white p-6 rounded-md shadow-md">
+                <div className="border p-6 rounded-md shadow-md">
                     <h3 className="text-2xl font-bold mb-4">Book This Tour</h3>
                     <form>
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-bold mb-2">
+                            <label className="block  font-bold mb-2">
                                 Name of the Package
                             </label>
                             <input
@@ -194,7 +194,7 @@ const PackageDetails = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-bold mb-2">Tourist Name</label>
+                            <label className="block  font-bold mb-2">Tourist Name</label>
                             <input
                                 type="text"
                                 value={user?.displayName || ""}
@@ -203,7 +203,7 @@ const PackageDetails = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-bold mb-2">Tourist Email</label>
+                            <label className="block  font-bold mb-2">Tourist Email</label>
                             <input
                                 type="email"
                                 value={user?.email || ""}
@@ -212,7 +212,7 @@ const PackageDetails = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-bold mb-2">Tour Date</label>
+                            <label className="block  font-bold mb-2">Tour Date</label>
                             <DatePicker
                                 selected={selectedDate}
                                 onChange={(date) => setSelectedDate(date)}
@@ -221,7 +221,7 @@ const PackageDetails = () => {
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-bold mb-2">Tour Guide</label>
+                            <label className="block  font-bold mb-2">Tour Guide</label>
                             <select
                                 value={selectedGuide}
                                 onChange={(e) => setSelectedGuide(e.target.value)}
@@ -236,7 +236,7 @@ const PackageDetails = () => {
                             </select>
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-bold mb-2">Price</label>
+                            <label className="block  font-bold mb-2">Price</label>
                             <input
                                 type="text"
                                 value={packageDetails.price}

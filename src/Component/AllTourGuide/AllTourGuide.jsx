@@ -14,10 +14,10 @@ const AllTourGuide = () => {
     }, [id]);
 
     return (
-        <div className="px-4 sm:px-8 lg:px-16 py-8 bg-gray-50">
+        <div className="px-4 sm:px-8 lg:px-16 py-8 ">
             {/* Tour Guides Section */}
             <div className="text-center mb-8">
-                <h3 className="text-3xl font-bold mb-4 text-gray-800">Tour Guides</h3>
+                <h3 className="text-3xl font-bold mb-4 ">Tour Guides</h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

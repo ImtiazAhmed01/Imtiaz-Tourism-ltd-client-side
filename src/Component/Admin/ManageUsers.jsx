@@ -240,8 +240,8 @@ const ManageUsers = () => {
             </div>
 
             <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300 shadow-md">
-                    <thead className="bg-purple-700 text-white">
+                <table className="w-full border-collapse border  shadow-md">
+                    <thead className="bg-[#008080]/70">
                         <tr>
                             <th className="p-3 text-center">#</th>
                             <th className="p-3 text-center">Name</th>
@@ -254,7 +254,7 @@ const ManageUsers = () => {
                             filteredData.map((item, index) => (
                                 <tr
                                     key={item._id}
-                                    className={`text-center ${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+                                    className={`text-center ${index % 2 === 0 ? '' : ''
                                         }`}
                                 >
                                     <td className="p-3 border border-gray-300">{index + 1}</td>

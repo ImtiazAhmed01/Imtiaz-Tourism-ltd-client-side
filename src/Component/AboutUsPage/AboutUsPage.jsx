@@ -7,7 +7,7 @@ const AboutUsPage = () => {
             <div className="max-w-4xl mx-auto bg-gradient-to-br from-white to-gray-100 rounded-lg shadow-2xl overflow-hidden">
                 {/* Header Section */}
                 <motion.div
-                    className="bg-gradient-to-r from-purple-600 via-blue-500 to-indigo-600 text-white text-center py-10 animate-fade-in"
+                    className="bg-gradient-to-r from-[#008080] via-[#008080]/50 to-[#008080] text-white text-center py-10 animate-fade-in"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
@@ -27,7 +27,7 @@ const AboutUsPage = () => {
                         animate={{ x: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h2 className="text-2xl font-semibold mb-4 text-purple-700 animate-fade-slide">
+                        <h2 className="text-2xl font-semibold mb-4 text-[#008080]/70 animate-fade-slide">
                             About Me
                         </h2>
                         <p className="text-gray-700 leading-relaxed">
@@ -44,7 +44,7 @@ const AboutUsPage = () => {
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
-                        <h2 className="text-2xl font-semibold mb-4 text-blue-700">Skills</h2>
+                        <h2 className="text-2xl font-semibold mb-4 text-[#008080]/70">Skills</h2>
                         <p className="text-gray-700 leading-relaxed">
                             <strong>Languages:</strong> English, Bangla, Chinese, Latin, Hindi <br />
                             <strong>Technical Skills:</strong> Node.js, React, Express.js, HTML, CSS,
@@ -59,7 +59,7 @@ const AboutUsPage = () => {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                        <h2 className="text-2xl font-semibold mb-4 text-indigo-700">Projects</h2>
+                        <h2 className="text-2xl font-semibold mb-4 text-[#008080]/80">Projects</h2>
                         <ul className="text-gray-700 space-y-4">
                             <li className="hover:animate-pop">
                                 <a

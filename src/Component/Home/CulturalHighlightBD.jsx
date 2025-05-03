@@ -27,7 +27,7 @@ const CulturalHighlightBD = () => {
     ];
 
     return (
-        <section className="p-8 bg-gray-100 my-10">
+        <section className="p-8 my-10">
             <h2 className="text-3xl font-bold mb-6 text-center">Cultural Highlights</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {highlights.map((highlight) => (
@@ -44,7 +44,7 @@ const CulturalHighlightBD = () => {
                         />
                         <div className="p-4">
                             <h3 className="text-xl font-bold">{highlight.name}</h3>
-                            <p className="text-white mt-2">{highlight.description}</p>
+                            <p className=" mt-2">{highlight.description}</p>
                         </div>
                     </motion.div>
                 ))}

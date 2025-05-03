@@ -228,7 +228,7 @@ const MyAssignedTours = () => {
                                 <td className="border border-gray-300 px-4 py-2">{tour.status}</td>
                                 <td className="border border-gray-300 px-4 py-2">
                                     <button
-                                        className="bg-green-500 text-white px-3 py-1 rounded mr-2 disabled:opacity-50"
+                                        className="bg-[#008080]/70 text-white px-3 py-1 rounded mr-2 disabled:opacity-50"
                                         disabled={tour.status !== "In Review"}
                                         onClick={() => handleStatusChange(tour.packageId, "Accepted")}
                                     >
@@ -236,7 +236,7 @@ const MyAssignedTours = () => {
                                     </button>
                                     {tour.status === "In Review" && (
                                         <button
-                                            className="bg-red-500 text-white px-3 py-1 rounded"
+                                            className="bg-[#FFA500] text-white px-3 py-1 rounded"
                                             onClick={() => handleReject(tour.packageId)}
                                         >
                                             Reject

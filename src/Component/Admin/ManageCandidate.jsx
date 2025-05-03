@@ -91,7 +91,7 @@ const ManageCandidate = () => {
                         {applications.map((application) => (
                             <tr key={application._id}>
                                 <td
-                                    className="border border-gray-300 px-4 py-2 cursor-pointer text-blue-600"
+                                    className="border border-gray-300 px-4 py-2 cursor-pointer text-[#008080]"
                                     onClick={() => {
                                         setSelectedApplication(application);
                                         setIsModalOpen(true);
@@ -128,7 +128,7 @@ const ManageCandidate = () => {
             {/* Modal for Viewing Applicant Details */}
             {isModalOpen && selectedApplication && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white rounded-lg p-6 shadow-lg w-1/2">
+                    <div className="bg-white rounded-lg p-6 shadow-lg w-1/2 text-black">
                         <h2 className="text-xl font-bold mb-4">Applicant Details</h2>
                         <p>
                             <strong>Name:</strong> {selectedApplication.name}
@@ -161,7 +161,7 @@ const ManageCandidate = () => {
                             </a>
                         </p>
                         <button
-                            className="btn btn-primary mt-4"
+                            className="btn bg-[#FFA500] text-black mt-4"
                             onClick={() => setIsModalOpen(false)}
                         >
                             Close

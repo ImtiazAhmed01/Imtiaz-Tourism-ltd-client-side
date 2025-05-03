@@ -26,9 +26,9 @@ const TourismAndTravelGuide = () => {
     }, []);
 
     return (
-        <section className="tourism-section py-16 bg-gray-100">
+        <section className="tourism-section py-16">
             <div className="container mx-auto px-4">
-                <h2 className="text-4xl font-bold text-center mb-8">Tourism and Travel Guide</h2>
+                < h2 className="text-4xl font-bold text-center mb-8" > Tourism and Travel Guide</ h2>
                 <Tabs>
                     <TabList>
                         <Tab>Our Packages</Tab>
@@ -107,8 +107,8 @@ const TourismAndTravelGuide = () => {
                     </TabPanel>
 
                 </Tabs>
-            </div>
-        </section>
+            </div >
+        </section >
     );
 };
 

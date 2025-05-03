@@ -67,7 +67,7 @@ const SideBar = () => {
     };
 
     const activeLinkStyle = {
-        backgroundColor: '#007bff',
+        backgroundColor: '#008080',
         color: '#ffffff',
         borderColor: '#007bff',
     };

@@ -293,6 +293,16 @@ const Navbar = () => {
                 return "/dashboard/tourist";
         }
     };
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+    useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
+    };
 
 
 
@@ -344,6 +354,9 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">{links}</ul>
+                    <button onClick={toggleTheme} className="btn btn-outline px-3 py-1">
+                        {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+                    </button>
                 </div>
                 <div className="navbar-end gap-4 flex items-center">
                     {user && user.photoURL && (

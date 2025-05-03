@@ -71,7 +71,7 @@
 //     };
 
 //     return (
-//         <div className="max-w-3xl mt-2 ml-72 p-6 bg-[#008080] text-white rounded-lg shadow-lg">
+//         <div className="max-w-3xl mt-2 ml-72 p-6 bg-[#008080]  rounded-lg shadow-lg">
 //             <ToastContainer />
 //             <h2 className="text-3xl font-semibold text-center mb-4">Add Your Story</h2>
 //             <form onSubmit={handleSubmit} className="space-y-4">
@@ -83,7 +83,7 @@
 //                         value={title}
 //                         onChange={(e) => setTitle(e.target.value)}
 //                         required
-//                         className="px-3 text-black py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+//                         className="px-3  py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
 //                     />
 //                 </div>
 
@@ -94,7 +94,7 @@
 //                         value={text}
 //                         onChange={(e) => setText(e.target.value)}
 //                         required
-//                         className="px-3 text-black py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y h-28"
+//                         className="px-3  py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y h-28"
 //                     />
 //                 </div>
 
@@ -107,7 +107,7 @@
 //                                 value={image}
 //                                 onChange={(e) => handleImageChange(index, e.target.value)}
 //                                 placeholder="Image URL"
-//                                 className="px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
+//                                 className="px-3 py-2 border  border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
 //                             />
 //                             {index > 0 && (
 //                                 <button
@@ -136,7 +136,7 @@
 //                             type="text"
 //                             value={user?.photoURL || ""}
 //                             readOnly
-//                             className="w-full border rounded-md p-2 text-black"
+//                             className="w-full border rounded-md p-2 "
 //                         />
 //                     </div>
 
@@ -146,7 +146,7 @@
 //                             type="text"
 //                             value={user?.displayName || ""}
 //                             readOnly
-//                             className="w-full border rounded-md p-2 text-black"
+//                             className="w-full border rounded-md p-2 "
 //                         />
 //                     </div>
 //                 </div>
@@ -158,7 +158,7 @@
 //                             type="text"
 //                             value={user?.email || ""}
 //                             readOnly
-//                             className="w-full border rounded-md p-2 text-black"
+//                             className="w-full border rounded-md p-2 "
 //                         />
 //                     </div>
 
@@ -168,10 +168,10 @@
 //                             id="userRole"
 //                             value={userRole}
 //                             onChange={(e) => setUserRole(e.target.value)}
-//                             className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+//                             className="px-3 py-2  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
 //                         >
-//                             <option value="Tourist" className='text-black'>Tourist</option>
-//                             <option value="Guide" className='text-black'>Guide</option>
+//                             <option value="Tourist" className=''>Tourist</option>
+//                             <option value="Guide" className=''>Guide</option>
 //                         </select>
 //                     </div>
 //                 </div>
@@ -255,35 +255,35 @@ const AddStories = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto ml-5 mt-8 p-6 bg-[#008080] text-white rounded-lg shadow-lg">
+        <div className="max-w-4xl mx-auto ml-5 mt-8 p-6 bg-[#008080]  rounded-lg shadow-lg">
             <ToastContainer />
             <h2 className="text-2xl md:text-3xl font-semibold text-center mb-6">Add Your Story</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="flex flex-col">
-                    <label htmlFor="title" className="text-lg font-medium text-white mb-2">Title</label>
+                    <label htmlFor="title" className="text-lg font-medium  mb-2">Title</label>
                     <input
                         type="text"
                         id="title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
-                        className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="px-3 py-2  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                 </div>
 
                 <div className="flex flex-col">
-                    <label htmlFor="text" className="text-lg font-medium text-white mb-2">Story Text</label>
+                    <label htmlFor="text" className="text-lg font-medium  mb-2">Story Text</label>
                     <textarea
                         id="text"
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         required
-                        className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y"
+                        className="px-3 py-2  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-y"
                     />
                 </div>
 
                 <div className="flex flex-col">
-                    <label htmlFor="images" className="text-lg font-medium text-white mb-2">Image Links</label>
+                    <label htmlFor="images" className="text-lg font-medium  mb-2">Image Links</label>
                     {images.map((image, index) => (
                         <div key={index} className="flex space-x-2 mb-2">
                             <input
@@ -291,13 +291,13 @@ const AddStories = () => {
                                 value={image}
                                 onChange={(e) => handleImageChange(index, e.target.value)}
                                 placeholder="Image URL"
-                                className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
+                                className="px-3 py-2  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
                             />
                             {index > 0 && (
                                 <button
                                     type="button"
                                     onClick={() => removeImageField(index)}
-                                    className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                    className="px-3 py-2 bg-red-500  rounded-md hover:bg-red-600"
                                 >
                                     Remove
                                 </button>
@@ -307,7 +307,7 @@ const AddStories = () => {
                     <button
                         type="button"
                         onClick={addImageField}
-                        className="px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+                        className="px-3 py-2 bg-[#FFA500]/70  rounded-md hover:bg-[#FFA500]"
                     >
                         Add Image
                     </button>
@@ -315,54 +315,54 @@ const AddStories = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col">
-                        <label htmlFor="userImage" className="text-lg font-medium text-white mb-2">User Image URL</label>
+                        <label htmlFor="userImage" className="text-lg font-medium  mb-2">User Image URL</label>
                         <input
                             type="text"
                             value={user?.photoURL || ''}
                             readOnly
-                            className="px-3 py-2 text-black border border-gray-300 rounded-md"
+                            className="px-3 py-2  border border-gray-300 rounded-md"
                         />
                     </div>
 
                     <div className="flex flex-col">
-                        <label htmlFor="userName" className="text-lg font-medium text-white mb-2">Your Name</label>
+                        <label htmlFor="userName" className="text-lg font-medium  mb-2">Your Name</label>
                         <input
                             type="text"
                             value={user?.displayName || ''}
                             readOnly
-                            className="px-3 py-2 text-black border border-gray-300 rounded-md"
+                            className="px-3 py-2  border border-gray-300 rounded-md"
                         />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col">
-                        <label htmlFor="email" className="text-lg font-medium text-white mb-2">Your Email</label>
+                        <label htmlFor="email" className="text-lg font-medium  mb-2">Your Email</label>
                         <input
                             type="text"
                             value={user?.email || ''}
                             readOnly
-                            className="px-3 py-2 text-black border border-gray-300 rounded-md"
+                            className="px-3 py-2  border border-gray-300 rounded-md"
                         />
                     </div>
 
                     <div className="flex flex-col">
-                        <label htmlFor="userRole" className="text-lg font-medium text-white mb-2">User Role</label>
+                        <label htmlFor="userRole" className="text-lg font-medium  mb-2">User Role</label>
                         <select
                             id="userRole"
                             value={userRole}
                             onChange={(e) => setUserRole(e.target.value)}
-                            className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="px-3 py-2  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         >
-                            <option value="Tourist" className="text-black">Tourist</option>
-                            <option value="Guide" className="text-black">Guide</option>
+                            <option value="Tourist" className="">Tourist</option>
+                            <option value="Guide" className="">Guide</option>
                         </select>
                     </div>
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full py-3 mt-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full py-3 mt-4 bg-[#FFA500]/90  font-semibold rounded-md hover:bg-[#FFA500] focus:outline-none focus:ring-2 focus:bg-[#FFA500]/90"
                 >
                     Submit Story
                 </button>
